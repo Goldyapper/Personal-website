@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Personal Website{% endblock %}</title>
+    <!-- move to a css sheet -->
+    <style> 
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
