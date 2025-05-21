@@ -1,18 +1,24 @@
 body { 
     font-family: Arial, sans-serif; 
     margin: 0; 
-    padding: 0; 
+    padding: 0;
+}
+h1 {
+    text-decoration: underline;
 }
 .navbar {
-    background-color: #333;
+    background-color: #4f0505;
     overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 }
 .navbar a {
     float: left;
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 20px;
+    padding: 15px 25px;
     text-decoration: none;
 }
 .navbar a:hover {
@@ -20,4 +26,28 @@ body {
 }
 .content {
     padding: 20px;
+    position: relative;
+}
+
+.profile_pic {
+    top: 55px;                /* Align to 10px below nav bar */
+    right: 10px;              /* Align to 10 px to the right */
+    margin: 10px 0 10px 15px;
+    object-fit: cover;
+    width: 30vw;           /* 30% of the viewport width */
+    height: auto;          /* Maintain aspect ratio */
+    border-radius: 10px;
+    border: 2px solid #333;
+    position: absolute;
+    padding-top: auto;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: 8px;
+}
+.container {
+    display: grid;
+    grid-template-columns: 7fr 3fr; /* 70% text, 30% image */
+    gap: 20px;
 }
