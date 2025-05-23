@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Weather Forecast</h1>
+
+<input type="text" id="cityInput" placeholder="Enter city name" />
+<button onclick="getWeather()">Get Weather</button>
+
+<div id="weatherResult"></div>
+
+<script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+{% endblock %}
