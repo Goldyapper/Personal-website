@@ -8,14 +8,19 @@ h1 {
 }
 .navbar {
     background-color: #4f0505;
-    overflow: hidden;
     position: fixed;
     width: 100%;
+    top: 0;
     z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-left, .nav-right {
+    display: flex;
+    gap: 10px;
 }
 .navbar a {
-    float: left;
-    display: block;
     color: white;
     text-align: center;
     padding: 15px 25px;

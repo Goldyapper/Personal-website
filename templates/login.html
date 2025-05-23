@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login - Adam's Website{% endblock %} <!-- title of the page -->
+
+{% block content %}     <!-- page contents -->
+
+    <h1>Login to your account</h1>
+    
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required />
+        <br>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required />
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
