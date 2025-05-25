@@ -23,7 +23,7 @@ h1 {
 .navbar a {
     color: white;
     text-align: center;
-    padding: 15px 25px;
+    padding: 15px 10px;
     text-decoration: none;
 }
 .navbar a:hover {
@@ -51,8 +51,27 @@ h1 {
     width: 100%;
     border-radius: 8px;
 }
+
 .container {
     display: grid;
     grid-template-columns: 7fr 3fr; /* 70% text, 30% image */
     gap: 20px;
+}
+form {
+    width: 300px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    width: 90px; /* Same width for all labels */
+}
+
+
+.form-actions {
+    margin-left: 80px; /* Aligns button with input fields */
 }
