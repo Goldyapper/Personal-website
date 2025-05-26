@@ -15,10 +15,10 @@
             </div>
             <div class="nav-right">
                 {% if not current_user.is_authenticated %}
-                    <a href="{{ url_for('login') }}">Login</a>
-                    <a href="{{ url_for('register') }}">Create account</a>
+                    <a href="/login">Login</a>
+                    <a href="/register">Create account</a>
                 {% else %}
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="/logout">Logout</a>
                 {% endif %}
             </div>
         </div>
