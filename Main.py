@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from collections import defaultdict
 import requests
 
 app = Flask(__name__)
@@ -47,13 +48,23 @@ def tube_departure():
     try:
         response = requests.get(url) #get website
         response.raise_for_status() 
+
         arrivals = response.json()
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
+
+        platforms = defaultdict(list)
+        for arrival in arrivals:
+            platforms[arrival.get('platformName', 'Unknown')].append({
+                "line": arrival.get("lineName"),
+                "destination": arrival.get("destinationName"),
+                "minutes": arrival.get("timeToStation",0)//60
+            })
+
     except Exception as e:
         print(f"Error: {e}")
-        arrivals = []
+        platforms = {}
 
-    return render_template("tube.html",arrivals=arrivals)
+    return render_template("tube.html",platforms=platforms)
 
 @app.route("/about")#this is the code for the about page
 def about():

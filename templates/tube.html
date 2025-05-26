@@ -6,23 +6,26 @@
     <h1>Live tube Departure</h1>
 
     <div class="tube-page">
-        {% if arrivals %}
-            <ul>
-                {% for train in arrivals %}
-                    <li>
-                        <p>{{ train.lineName }} line to {{ train.destinationName or train.towards}} – 
-                            {% if train.timeToStation // 60 == 0 %}
-                                arriving
-                            {% else %}
-                                arriving in {{ train.timeToStation // 60 }} min{{ 's' if train.timeToStation // 60 != 1 else '' }}
-                            {% endif %}    
-                        </p>
-                    </li>
-                {% endfor %}
-            </ul>
+        {% if platforms %}
+            {% for platform, arrivals in platforms.items() %}
+                <h2>{{ platform }}</h2>
+                <ul>
+                    {% for train in arrivals %}
+                        <li>
+                            <p>
+                                {{ train.line }} line to {{ train.destination}} – 
+                                {% if train.minutes == 0 %}
+                                    arriving
+                                {% else %}
+                                    arriving in {{ train.minutes}} min{{ 's' if train.minutes !=1 else '' }}
+                                {% endif %}    
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
         {% else %}
-                <p>No arrival data available. Please try again later.</p>
+            <p>No departure data available at the moment.</p>
         {% endif %}
     </div>
-
 {% endblock %}

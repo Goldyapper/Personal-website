@@ -1,5 +1,5 @@
 body { 
-    font-family: 'VT323', monospace;
+    font-family: Arial, sans-serif; 
     margin: 0; 
     padding: 0;
 }
@@ -29,9 +29,15 @@ h1 {
 .navbar a:hover {
     background-color: #575757;
 }
+
+.tube-page {
+    font-family: 'VT323', monospace;
+}
 .content {
     padding: 20px;
     position: relative;
+    font-family: 'VT323', monospace;
+
 }
 
 .profile_pic {
