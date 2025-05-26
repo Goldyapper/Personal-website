@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
@@ -23,6 +24,9 @@ class Users(UserMixin, db.Model):
 with app.app_context():
     db.create_all()
 
+# Wembley Park StopPoint ID (TfL internal ID for the station)
+STOPPOINT_ID = "940GZZLUWYP"
+
 # Load user for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
@@ -35,6 +39,21 @@ def home():
 @app.route("/weather")#this is the code for the weather page
 def weather():
     return render_template("weather.html")
+
+@app.route("/tube")
+def tube_departure():
+    url = f"https://api.tfl.gov.uk/StopPoint/{STOPPOINT_ID}/Arrivals"
+
+    try:
+        response = requests.get(url) #get website
+        response.raise_for_status() 
+        arrivals = response.json()
+        arrivals.sort(key=lambda x:['timeToStation']) #sort arrivals by quickest arrival
+    except Exception as e:
+        print(f"Error: {e}")
+        arrivals = []
+
+    return render_template("tube.html",arrivals=arrivals)
 
 @app.route("/about")#this is the code for the about page
 def about():

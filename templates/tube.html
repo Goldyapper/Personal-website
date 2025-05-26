@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Tube departure board - Adam's Website{% endblock %}<!-- title of the page -->
+
+{% block content %} <!-- contents of the page -->
+    <h1>Live tube Departure</h1>
+
+    {% if arrivals %}
+        <ul>
+            {% for train in arrivals %}
+                <li>
+                    <p>{{ train.lineName }} line to {{ train.destinationName }} – arriving in {{ train.timeToStation // 60 }} min{{ 's' if train.timeToStation // 60 != 1 else '' }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+            <p>No arrival data available. Please try again later.</p>
+    {% endif %}
+
+{% endblock %}
