@@ -48,7 +48,7 @@ def tube_departure():
         response = requests.get(url) #get website
         response.raise_for_status() 
         arrivals = response.json()
-        arrivals.sort(key=lambda x:['timeToStation']) #sort arrivals by quickest arrival
+        arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
     except Exception as e:
         print(f"Error: {e}")
         arrivals = []

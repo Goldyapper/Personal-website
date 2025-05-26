@@ -2,6 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        {% if refresh %}
+            <meta http-equiv="refresh" content="30">
+        {% endif %}
         <title>{% block title %}Adam's Website{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
