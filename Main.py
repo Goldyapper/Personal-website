@@ -73,7 +73,7 @@ def tube_departure():
 
             destination = arrival.get("destinationName")
             if not destination:
-                continue
+                destination = "Check front of train"
 
             line = arrival.get("lineName","")
             if not line:
