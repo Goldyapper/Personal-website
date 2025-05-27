@@ -3,29 +3,30 @@
 {% block title %}Tube departure board - Adam's Website{% endblock %}<!-- title of the page -->
 
 {% block content %} <!-- contents of the page -->
-    <h1>Live Tube Departure - {{ station_name }}</h1>
-
-    <div class="tube-page">
-        {% if platforms %}
+<h1>Live Tube Departure - {{ station_name }}</h1>
+    {% if platforms %}
+        <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
-                <h2>{{ platform }}</h2>
-                <ul>
-                    {% for train in arrivals %}
-                        <li>
-                            <p>
-                                {{ train.destination}} – 
-                                {% if train.minutes == 0 %}
-                                    Due
-                                {% else %}
-                                    {{ train.minutes}} min{{ 's' if train.minutes !=1 else '' }}
-                                {% endif %}    
-                            </p>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <div class="platform-depature-board">
+                    <h2>{{ platform }}</h2>
+                    <ol>
+                        {% for train in arrivals %}
+                            <li>
+                                <p>
+                                    {{ train.destination}} – 
+                                    {% if train.minutes == 0 %}
+                                        Due
+                                    {% else %}
+                                        {{ train.minutes}} min{{ 's' if train.minutes !=1 else '' }}
+                                    {% endif %}    
+                                </p>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
             {% endfor %}
-        {% else %}
-            <p>No departure data available at the moment.</p>
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <p>No departure data available at the moment.</p>
+    {% endif %}
 {% endblock %}
