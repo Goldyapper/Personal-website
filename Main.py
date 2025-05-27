@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from collections import defaultdict
-import requests
+from collections import defaultdict, OrderedDict
+import requests, re
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
@@ -20,6 +20,10 @@ class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
+
+def extract_platform_number(name): # extract platform number
+    match = re.search(r'\d+', name)
+    return int(match.group()) if match else float('inf')
 
 # Create database
 with app.app_context():
@@ -59,6 +63,16 @@ def tube_departure():
                 "destination": arrival.get("destinationName"),
                 "minutes": arrival.get("timeToStation",0)//60
             })
+
+        # Sort platforms by numeric value
+        sorted_platforms = sorted(
+            platforms.items(),
+            key=lambda item: extract_platform_number(item[0])
+        )
+
+        platforms = OrderedDict(sorted_platforms)
+
+
 
     except Exception as e:
         print(f"Error: {e}")
