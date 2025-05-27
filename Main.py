@@ -67,17 +67,31 @@ def tube_departure():
         platforms = defaultdict(list)
 
         for arrival in arrivals:
-            platform = arrival.get("platformName", "Unknown")
+            platform = arrival.get("platformName")
+            if not platform or "platform" not in platform.lower():
+                continue
+
+            destination = arrival.get("destinationName")
+            if not destination:
+                continue
+
             line = arrival.get("lineName","")
+            if not line:
+                continue
 
             direction_match = re.search(r'(Northbound|Southbound|Eastbound|Westbound)', platform, re.IGNORECASE)
-            direction = direction_match.group(1) if direction_match else "Unknown"
+            if not direction_match:
+                continue
+
+            direction = direction_match.group(1) 
+            if not direction_match:
+                continue
 
             platform_label = f"{platform.split('-')[1].strip()} - {direction.capitalize()} - {line} Line"
 
             platforms[platform_label].append({
-                "line": arrival.get("lineName"),
-                "destination": arrival.get("destinationName"),
+                "line": line,
+                "destination": destination,
                 "minutes": arrival.get("timeToStation",0)//60
             })
 
