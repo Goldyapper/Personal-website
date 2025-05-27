@@ -38,10 +38,23 @@ h1 {
 }
 .tube-board-grid{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
     margin-top: 20px;
 }
+.platform-depature-board {
+    background-color: #000000;
+    border: 2px solid #ff7900;
+    border-radius: 10px;
+    color: #ff7900;
+    padding: 15px;
+}
+.platform-depature-board h2 {
+    margin-top: 0;
+    border-bottom: 2px dashed #ff7900;
+    padding-bottom: 5px;
+}
+
 .profile_pic {
     top: 55px;                /* Align to 10px below nav bar */
     right: 10px;              /* Align to 10 px to the right */
