@@ -3,7 +3,7 @@
 {% block title %}Tube departure board - Adam's Website{% endblock %}<!-- title of the page -->
 
 {% block content %} <!-- contents of the page -->
-    <h1>Live tube Departure</h1>
+    <h1>Live Tube Departure - {{ station_name }}</h1>
 
     <div class="tube-page">
         {% if platforms %}
@@ -13,11 +13,11 @@
                     {% for train in arrivals %}
                         <li>
                             <p>
-                                {{ train.line }} line to {{ train.destination}} – 
+                                {{ train.destination}} – 
                                 {% if train.minutes == 0 %}
-                                    arriving
+                                    Due
                                 {% else %}
-                                    arriving in {{ train.minutes}} min{{ 's' if train.minutes !=1 else '' }}
+                                    {{ train.minutes}} min{{ 's' if train.minutes !=1 else '' }}
                                 {% endif %}    
                             </p>
                         </li>

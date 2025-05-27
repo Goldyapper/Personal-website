@@ -47,18 +47,35 @@ def weather():
 
 @app.route("/tube")
 def tube_departure():
-    url = f"https://api.tfl.gov.uk/StopPoint/{STOPPOINT_ID}/Arrivals"
+    arrival_url = f"https://api.tfl.gov.uk/StopPoint/{STOPPOINT_ID}/Arrivals"
+    station_name_url = f"https://api.tfl.gov.uk/StopPoint/{STOPPOINT_ID}"
 
     try:
-        response = requests.get(url) #get website
-        response.raise_for_status() 
 
-        arrivals = response.json()
+        station_name_response = requests.get(station_name_url)
+        station_name_response.raise_for_status()
+        station_name = station_name_response.json()
+        station_name = station_name.get("commonName", "Unknown Station")
+
+
+        #arrival data pulling
+        arrival_response = requests.get(arrival_url) #get website
+        arrival_response.raise_for_status() 
+        arrivals = arrival_response.json()
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
 
         platforms = defaultdict(list)
+
         for arrival in arrivals:
-            platforms[arrival.get('platformName', 'Unknown')].append({
+            platform = arrival.get("platformName", "Unknown")
+            line = arrival.get("lineName","")
+
+            direction_match = re.search(r'(Northbound|Southbound|Eastbound|Westbound)', platform, re.IGNORECASE)
+            direction = direction_match.group(1) if direction_match else "Unknown"
+
+            platform_label = f"{platform.split('-')[1].strip()} - {direction.capitalize()} - {line} Line"
+
+            platforms[platform_label].append({
                 "line": arrival.get("lineName"),
                 "destination": arrival.get("destinationName"),
                 "minutes": arrival.get("timeToStation",0)//60
@@ -76,9 +93,10 @@ def tube_departure():
 
     except Exception as e:
         print(f"Error: {e}")
+        station_name = "Unknown Station"
         platforms = {}
 
-    return render_template("tube.html",platforms=platforms)
+    return render_template("tube.html",platforms=platforms, station_name=station_name)
 
 @app.route("/about")#this is the code for the about page
 def about():
