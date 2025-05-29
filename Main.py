@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict, OrderedDict
+from datetime import datetime
 import requests, re
 
 app = Flask(__name__)
@@ -64,6 +65,9 @@ def tube_departure():
         arrivals = arrival_response.json()
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
 
+        # Time of API pull
+        fetched_time = datetime.now().strftime('%H:%M:%S')
+
         platforms = defaultdict(list)
 
         for arrival in arrivals:
@@ -103,14 +107,12 @@ def tube_departure():
 
         platforms = OrderedDict(sorted_platforms)
 
-
-
     except Exception as e:
         print(f"Error: {e}")
         station_name = "Unknown Station"
         platforms = {}
 
-    return render_template("tube.html",platforms=platforms, station_name=station_name)
+    return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time)
 
 @app.route("/about")#this is the code for the about page
 def about():

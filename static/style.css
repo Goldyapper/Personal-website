@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif; 
     margin: 0; 
     padding: 0;
-    background-color: #FAF9F6;
+    background-color: #d6d6d6;
 }
 .content {
     padding: 20px;
@@ -12,9 +12,15 @@ body {
 h1 {
     text-decoration: underline;
     text-align: left;
+    font-size: 36px;
+}
+h2 {
+    margin-top: 0;
+    padding-bottom: 5px;
+    font-size: 24px;
 }
 p {
-    font-size: 20px;
+    font-size: 18px;
 }
 .navbar {
     background-color: #4f0505;
@@ -47,15 +53,16 @@ p {
 }
 .platform-depature-board {
     background-color: #000000;
-    border: 2px solid #ff7900;
+    border: 5px solid #ff7900;
     border-radius: 10px;
     color: #ff7900;
     padding: 15px;
 }
-.platform-depature-board h2 {
+.platform-depature-board h3 {
     margin-top: 0;
     border-bottom: 2px dashed #ff7900;
     padding-bottom: 5px;
+    font-size: 24px;
 }
 
 .profile_pic {

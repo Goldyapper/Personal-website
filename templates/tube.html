@@ -3,12 +3,14 @@
 {% block title %}Tube departure board - Adam's Website{% endblock %}<!-- title of the page -->
 
 {% block content %} <!-- contents of the page -->
-<h1>Live Tube Departure - {{ station_name }}</h1>
+<h1>Live Tube Departure board</h1>
+    <h2>{{ station_name }}</h2>
+    <p style="text-decoration: underline"><b>Last updated at: {{ fetched_time }}</b></p>
     {% if platforms %}
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
                 <div class="platform-depature-board">
-                    <h2>{{ platform }}</h2>
+                    <h3>{{ platform }}</h3>
                     <ol>
                         {% for train in arrivals %}
                             <li>
