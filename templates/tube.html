@@ -13,7 +13,7 @@
                         {% for train in arrivals %}
                             <li>
                                 <p>
-                                    {{ train.destination}} – 
+                                    {{ train.destination.replace('Underground Station', '') | trim }} –
                                     {% if train.minutes == 0 %}
                                         Due
                                     {% else %}
