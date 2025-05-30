@@ -111,6 +111,7 @@ def tube_departure():
         print(f"Error: {e}")
         station_name = "Unknown Station"
         platforms = {}
+        fetched_time = "Unknown Time"
 
     return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time)
 

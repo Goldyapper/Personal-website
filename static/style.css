@@ -31,6 +31,7 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 24px;
 }
 .nav-left, .nav-right {
     display: flex;
@@ -117,7 +118,6 @@ p {
 form {
     width: 300px;
 }
-
 .form-group {
     display: flex;
     align-items: center;
@@ -127,8 +127,6 @@ form {
 .form-group label {
     width: 90px; /* Same width for all labels */
 }
-
-
 .form-actions {
     margin-left: 90px; /* Aligns button with input fields */
 }
