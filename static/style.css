@@ -60,13 +60,39 @@ p {
 }
 .platform-depature-board h3 {
     margin-top: 0;
-    border-bottom: 2px dashed #ff7900;
+    border-bottom: 3px dashed #ff7900;
     padding-bottom: 5px;
     font-size: 24px;
+    color: #ffffff;
 }
-
+.refresh-button {
+    background-color: #ff5c00;
+    color: #ffffff;
+    border: 2px solid #000000;
+    padding: 8px 14px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.refresh-button:hover {
+    background-color: #e04e00;
+}
+.refresh-row {
+    display: flex; 
+    gap: 25px; 
+    align-items: center;
+}
+.refresh-row form {
+    margin: 0;
+    width: auto; /* prevent it from being 300px wide */
+}
+.refresh-time{
+    font-weight: bold;
+    margin: 10;
+}
 .profile_pic {
-    top: 55px;                /* Align to 10px below nav bar */
+    top: 55px;                /* Align to 10 px below nav bar */
     right: 10px;              /* Align to 10 px to the right */
     margin: 10px 0 10px 15px;
     object-fit: cover;

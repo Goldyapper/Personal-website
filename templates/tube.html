@@ -5,8 +5,13 @@
 {% block content %} <!-- contents of the page -->
 <h1>Live Tube Departure board</h1>
     <h2>{{ station_name }}</h2>
-    <p style="text-decoration: underline"><b>Last updated at: {{ fetched_time }}</b></p>
     {% if platforms %}
+        <div class="refresh-row">
+            <form method="get" action="{{ url_for('tube_departure') }}">
+                <button type="submit" class="refresh-button">Refresh</button>
+            </form>
+            <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
+        </div>
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
                 <div class="platform-depature-board">
