@@ -47,6 +47,7 @@ def weather():
 def tube_departure():
     station_name = request.args.get('station', 'Wembley Park')
     station_ids = {
+        'Select A Station': '0',
         'Wembley Park': '940GZZLUWYP',
         'Baker Street': '940GZZLUBST',
         'King\'s Cross': '940GZZLUKSX',
@@ -63,6 +64,7 @@ def tube_departure():
         station_name_response.raise_for_status()
         station_name = station_name_response.json()
         station_name = station_name.get("commonName", "Unknown Station")
+        station_name = station_name.replace("Underground Station", "").strip()
 
 
         #arrival data pulling

@@ -5,18 +5,19 @@
 {% block content %} <!-- contents of the page -->
 <h1>Live Tube Departure board</h1>
     <h2>{{ station_name }}</h2>
+    <form class="refresh-row" method="get" action="{{ url_for('tube_departure') }}">
+        <select name="station" class="station-select" onchange="console.log('changed'); this.form.submit()">
+            {% for station in station_list %}
+                <option value="{{ station }}"
+                        {% if station == station_name %}selected{% endif %}>
+                    {{ station }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="refresh-button">Refresh</button>
+    </form>
+    <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
     {% if platforms %}
-        <form class="refresh-row" method="get" action="{{ url_for('tube_departure') }}">
-            <select name="station" class="station-select">
-                {% for station in station_list %}
-                    <option value="{{ station }}"{% if station == station_name %}selected{% endif %}>
-                        {{ station }}
-                    </option>
-                {% endfor %}
-            </select>
-            <button type="submit" class="refresh-button">Refresh</button>
-        </form>
-        <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
                 <div class="platform-depature-board">

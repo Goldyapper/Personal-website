@@ -89,13 +89,15 @@ p {
     width: auto; /* prevent it from being 300px wide */
 }
 .station-select {
-    font-size: 16px;
-    padding: 6px 10px;
+    font-size: 18px;
+    padding: 8px 14px;
     margin-right: 10px;
-    border-radius: 4px;
     background-color: #ff5c00;
     color: #ffffff;
-    border: 2px solid #000000;    
+    border: 2px solid #000000;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;    
 }
 .refresh-time{
     font-weight: bold;
