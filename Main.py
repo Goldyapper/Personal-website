@@ -30,9 +30,6 @@ def extract_platform_number(name): # extract platform number
 with app.app_context():
     db.create_all()
 
-# Wembley Park StopPoint ID (TfL internal ID for the station)
-STOPPOINT_ID = "940GZZLUWYP"
-
 # Load user for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
@@ -48,8 +45,17 @@ def weather():
 
 @app.route("/tube")
 def tube_departure():
-    arrival_url = f"https://api.tfl.gov.uk/StopPoint/{STOPPOINT_ID}/Arrivals"
-    station_name_url = f"https://api.tfl.gov.uk/StopPoint/{STOPPOINT_ID}"
+    station_name = request.args.get('station', 'Wembley Park')
+    station_ids = {
+        'Wembley Park': '940GZZLUWYP',
+        'Baker Street': '940GZZLUBST',
+        'King\'s Cross': '940GZZLUKSX',
+        'Liverpool Street': '940GZZLULVT'
+    }
+    stop_point_id = station_ids.get(station_name, '940GZZLUWYP')  # fallback
+
+    arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
+    station_name_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}"
 
     try:
 
@@ -113,7 +119,7 @@ def tube_departure():
         platforms = {}
         fetched_time = "Unknown Time"
 
-    return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time)
+    return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time,station_list=list(station_ids.keys()))
 
 @app.route("/about")#this is the code for the about page
 def about():
