@@ -51,7 +51,8 @@ def tube_departure():
         'Wembley Park': '940GZZLUWYP',
         'Baker Street': '940GZZLUBST',
         'King\'s Cross': '940GZZLUKSX',
-        'Liverpool Street': '940GZZLULVT'
+        'Liverpool Street': '940GZZLULVT',
+        'Camden Town':'940GZZLUCTN'
     }
     stop_point_id = station_ids.get(station_name, '940GZZLUWYP')  # fallback
 
@@ -84,8 +85,15 @@ def tube_departure():
                 continue
 
             destination = arrival.get("destinationName")
+
             if not destination:
                 destination = "Check front of train"
+            else:
+                destination = destination.replace("Underground Station", "").strip()
+
+            if destination == station_name:
+                destination = "Terminating here"
+            
 
             line = arrival.get("lineName","")
             if not line:
