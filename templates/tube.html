@@ -26,6 +26,7 @@
                         {% for train in arrivals %}
                             <li>
                                 <p>
+                                    {{ train.destination }} -
                                     {% if train.minutes == 0 %}
                                         Due
                                     {% else %}

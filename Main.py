@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict, OrderedDict
 from datetime import datetime
 import requests, re
+from station_ids import station_ids
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
@@ -46,14 +47,6 @@ def weather():
 @app.route("/tube")
 def tube_departure():
     station_name = request.args.get('station', 'Wembley Park')
-    station_ids = {
-        'Select A Station': '0',
-        'Wembley Park': '940GZZLUWYP',
-        'Baker Street': '940GZZLUBST',
-        'King\'s Cross': '940GZZLUKSX',
-        'Liverpool Street': '940GZZLULVT',
-        'Camden Town':'940GZZLUCTN'
-    }
     stop_point_id = station_ids.get(station_name, '940GZZLUWYP')  # fallback
 
     arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
@@ -110,7 +103,6 @@ def tube_departure():
             platform_label = f"{platform.split('-')[1].strip()} - {direction.capitalize()} - {line} Line"
 
             platforms[platform_label].append({
-                "line": line,
                 "destination": destination,
                 "minutes": arrival.get("timeToStation",0)//60
             })
