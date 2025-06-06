@@ -88,17 +88,13 @@ p {
     margin: 0;
     width: auto; /* prevent it from being 300px wide */
 }
-.station-select {
+select.station-select {
     font-size: 18px;
-    padding: 8px 14px;
-    margin-right: 10px;
-    background-color: #ff5c00;
-    color: #ffffff;
-    border: 2px solid #000000;
+    padding: 8px 14px 12px 14px; /* top, right, bottom, left */
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 5px;   
-    max-height: 150px; 
+    margin-bottom: 5px;
+    max-height: 100px;
 }
 .refresh-time{
     font-weight: bold;

@@ -46,9 +46,8 @@ def weather():
 
 @app.route("/tube")
 def tube_departure():
-    station_name = request.args.get('station', 'Wembley Park')
-    stop_point_id = station_ids.get(station_name, '940GZZLUWYP')  # fallback
-
+    station_name = request.args.get('station', 'Acton Town')
+    stop_point_id = station_ids.get(station_name, '940GZZLUACT')  # fallback
     arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
     station_name_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}"
 
