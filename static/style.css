@@ -90,7 +90,7 @@ p {
 }
 select.station-select {
     font-size: 18px;
-    padding: 8px 14px 12px 14px; /* top, right, bottom, left */
+    padding: 10px 14px 14px 14px; /* top, right, bottom, left */
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 5px;
