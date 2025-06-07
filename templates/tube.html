@@ -3,14 +3,8 @@
 {% block title %}Tube departure board - Adam's Website{% endblock %}<!-- title of the page -->
 
 {% block content %} <!-- contents of the page -->
-<script>
-    $(document).ready(function() {
-        $('.station-select').select2({
-            placeholder: "Select a station",
-            width: '100%'
-        });
-    });
-</script>
+<script src="{{ url_for('static', filename='js/tube.js') }}"></script>
+
 <h1>Live Tube Departure board</h1>
     <h2>{{ station_name }}</h2>
     <form class="refresh-row" method="get" action="{{ url_for('tube_departure') }}">
