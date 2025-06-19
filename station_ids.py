@@ -170,7 +170,7 @@ station_ids = {
     "Oval": "940GZZLUOVL",
     "Oxford Circus": "940GZZLUOXC",
     "Paddington (H&C Line)-Underground": "940GZZLUPAH",
-    "Paddington": "940GZZLUPAC",
+    "Paddington": ["940GZZLUPAC", "910GPADTON"],
     "Park Royal": "940GZZLUPKR",
     "Parsons Green": "940GZZLUPSG",
     "Perivale": "940GZZLUPVL",

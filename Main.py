@@ -47,23 +47,39 @@ def weather():
 @app.route("/tube")
 def tube_departure():
     station_name = request.args.get('station', 'Acton Town')
-    stop_point_id = station_ids.get(station_name, '940GZZLUACT')  # fallback
-    arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
-    station_name_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}"
+    stop_point_ids = station_ids.get(station_name, '940GZZLUACT')  # fallback
+    
+    if isinstance(stop_point_ids, str):
+        stop_point_ids = [stop_point_ids]
 
-    try:
+    arrivals = []
 
-        station_name_response = requests.get(station_name_url)
-        station_name_response.raise_for_status()
-        station_name = station_name_response.json()
-        station_name = station_name.get("commonName", "Unknown Station")
-        station_name = station_name.replace("Underground Station", "").strip()
+    for i, stop_point_id in enumerate(stop_point_ids):
+
+        try:
+            arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
+            response = requests.get(arrival_url)
+            response.raise_for_status()
+            data = response.json()
+            print(f"{stop_point_id} returned {len(data)} arrivals")  
+            arrivals += data
+
+            if i == 0:
+            
+                station_name_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}"
+                station_name_response = requests.get(station_name_url)
+                station_name_response.raise_for_status()
+                station_name = station_name_response.json()
+                station_name = station_name.get("commonName", station_name)
+                station_name = station_name.replace("Underground Station", "").strip()
+        
+        except Exception as e:
+                    print(f"Error: {e}")
+                    station_name = "Unknown Station"
+                    platforms = {}
+                    fetched_time = "Unknown Time"
 
 
-        #arrival data pulling
-        arrival_response = requests.get(arrival_url) #get website
-        arrival_response.raise_for_status() 
-        arrivals = arrival_response.json()
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
 
         # Time of API pull
@@ -73,7 +89,7 @@ def tube_departure():
 
         for arrival in arrivals:
             platform = arrival.get("platformName")
-            if not platform or "platform" not in platform.lower():
+            if not platform:
                 continue
 
             destination = arrival.get("destinationName")
@@ -92,14 +108,15 @@ def tube_departure():
                 continue
 
             direction_match = re.search(r'(Northbound|Southbound|Eastbound|Westbound)', platform, re.IGNORECASE)
-            if not direction_match:
-                continue
+            direction = direction_match.group(1) if direction_match else "Unknown"
 
-            direction = direction_match.group(1) 
-            if not direction_match:
-                continue
+            if '-' in platform:
+                platform_number = platform.split('-')[1].strip()
+            else:
+                platform_number = platform.replace("Platform", "").strip()
 
-            platform_label = f"{platform.split('-')[1].strip()} - {direction.capitalize()} - {line} Line"
+            platform_label = f"Platform {platform_number} - {direction.capitalize()} - {line} Line"
+
 
             platforms[platform_label].append({
                 "destination": destination,
@@ -107,18 +124,9 @@ def tube_departure():
             })
 
         # Sort platforms by numeric value
-        sorted_platforms = sorted(
-            platforms.items(),
-            key=lambda item: extract_platform_number(item[0])
-        )
-
+        sorted_platforms = sorted(platforms.items(),key=lambda item: extract_platform_number(item[0]))
         platforms = OrderedDict(sorted_platforms)
 
-    except Exception as e:
-        print(f"Error: {e}")
-        station_name = "Unknown Station"
-        platforms = {}
-        fetched_time = "Unknown Time"
 
     return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time,station_list=list(station_ids.keys()))
 
