@@ -60,9 +60,7 @@ def tube_departure():
             arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
             response = requests.get(arrival_url)
             response.raise_for_status()
-            data = response.json()
-            print(f"{stop_point_id} returned {len(data)} arrivals")  
-            arrivals += data
+            arrivals += response.json()
 
             if i == 0:
             
@@ -93,16 +91,13 @@ def tube_departure():
                 continue
 
             destination = arrival.get("destinationName")
-
             if not destination:
                 destination = "Check front of train"
             else:
                 destination = destination.replace("Underground Station", "").strip()
-
             if destination == station_name:
                 destination = "Terminating here"
             
-
             line = arrival.get("lineName","")
             if not line:
                 continue
@@ -110,12 +105,15 @@ def tube_departure():
             direction_match = re.search(r'(Northbound|Southbound|Eastbound|Westbound)', platform, re.IGNORECASE)
             direction = direction_match.group(1) if direction_match else "Unknown"
 
-            if '-' in platform:
-                platform_number = platform.split('-')[1].strip()
-            else:
-                platform_number = platform.replace("Platform", "").strip()
+            # Extract platform number/letter
+            number_match = re.search(r'Platform\s+(\w+)', platform)
+            platform_number = number_match.group(1) if number_match else platform.strip()
 
-            platform_label = f"Platform {platform_number} - {direction.capitalize()} - {line} Line"
+            # Build platform label
+            if direction:
+                platform_label = f"Platform {platform_number} - {direction} - {line} Line"
+            else:
+                platform_label = f"Platform {platform_number} - {line} Line"
 
 
             platforms[platform_label].append({
@@ -123,8 +121,11 @@ def tube_departure():
                 "minutes": arrival.get("timeToStation",0)//60
             })
 
-        # Sort platforms by numeric value
-        sorted_platforms = sorted(platforms.items(),key=lambda item: extract_platform_number(item[0]))
+        # Sort platforms by numeric then alphabetical value
+        sorted_platforms = sorted(platforms.items(), key=lambda item: (
+            0 if re.match(r'Platform \d+', item[0]) else 1,               # numbers first, letters second
+            int(re.search(r'Platform (\d+)', item[0]).group(1)) if re.match(r'Platform \d+', item[0]) else item[0]
+        ))        
         platforms = OrderedDict(sorted_platforms)
 
 
