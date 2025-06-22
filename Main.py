@@ -45,7 +45,7 @@ def weather():
     return render_template("weather.html")
 
 @app.route("/tube")
-def tube_departure():
+def tube():
     station_name = request.args.get('station', 'Acton Town')
     stop_point_ids = station_ids.get(station_name, '940GZZLUACT')  # fallback
     
@@ -123,9 +123,9 @@ def tube_departure():
 
         # Sort platforms by numeric then alphabetical value
         sorted_platforms = sorted(platforms.items(), key=lambda item: (
-            0 if re.match(r'Platform \d+', item[0]) else 1,               # numbers first, letters second
+            0 if re.match(r'Platform \d+', item[0]) else 1,               
             int(re.search(r'Platform (\d+)', item[0]).group(1)) if re.match(r'Platform \d+', item[0]) else item[0]
-        ))        
+        ))        # numbers first, letters second
         platforms = OrderedDict(sorted_platforms)
 
 

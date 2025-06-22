@@ -7,7 +7,7 @@
 
 <h1>Live Tube Departure board</h1>
     <h2>{{ station_name }}</h2>
-    <form class="refresh-row" method="get" action="{{ url_for('tube_departure') }}">
+    <form class="refresh-row" method="get" action="{{ url_for('tube') }}">
         <select name="station" class="station-select" onchange="this.form.submit()">
             {% for station in station_list %}
                 <option value="{{ station }}"
