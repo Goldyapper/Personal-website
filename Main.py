@@ -135,6 +135,11 @@ def tube():
 def about():
     return render_template("about.html")
 
+@app.route("/tube_php")#this is the code for the tube_php page
+def tube_php():
+    return render_template("tube_php.html")
+
+
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
