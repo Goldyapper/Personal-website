@@ -49,7 +49,6 @@ def fetch_data(name, media_type):
 		media = ""
 
 	episode_formatted = smart_capitalize(name).replace(" ","_")
-	print(episode_formatted)
 
 	url = "https://tardis.wiki/wiki/" + episode_formatted + media
 

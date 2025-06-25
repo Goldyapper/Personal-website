@@ -140,29 +140,36 @@ def doc_who():
     if request.method == "POST":
         episode_name = request.form.get("episode")
         media_type = request.form.get('media_type')
-        print(f"Episode name: {episode_name}")
-        print(f"Media type selected: {media_type}")
-        
-        data = fetch_data(episode_name,media_type)
-        print(data)
 
+        data = fetch_data(episode_name,media_type)
         if data[0] == 'N/A':
             scraper_info = {"Error": "No data found for this episode. Make sure you have spelt correctly and used correct capitalization"}
         else:
             season, parts, doctor, main_character, companions, featuring, enemy, writer, director = data
+            
+            if doctor:
+                main_character = []
+            elif main_character:
+                doctor = []
 
-            scraper_info = {
-                "Episode Name": (smart_capitalize(episode_name)),
-                "Season": ", ".join(season) if season else "N/A",
-                "Number of Parts": parts if parts else "N/A",
-                "Doctor(s)": ", ".join(doctor) if doctor else "N/A",
-                "Main Character(s)": ", ".join(main_character) if main_character else "N/A",
-                "Companion(s)": ", ".join(companions) if companions else "N/A",
-                "Featuring": ", ".join(featuring) if featuring else "N/A",
-                "Main Enemy": ", ".join(enemy) if enemy else "N/A",
-                "Writer(s)": ", ".join(writer) if writer else "N/A",
-                "Director(s)": ", ".join(director) if director else "N/A"
-            }
+            # Build ordered dict with fields in desired order
+            scraper_info = OrderedDict()
+            scraper_info["Episode Name"] = smart_capitalize(episode_name)
+            scraper_info["Season"] = ", ".join(season) if season else "N/A"
+            scraper_info["Number of Parts"] = parts if parts else "N/A"
+
+            # Insert Doctor(s) or Main Character(s) here
+            if doctor:
+                scraper_info["Doctor(s)"] = ", ".join(doctor)
+            elif main_character:
+                scraper_info["Main Character(s)"] = ", ".join(main_character)
+
+            # Continue with rest of fields
+            scraper_info["Companion(s)"] = ", ".join(companions) if companions else "N/A"
+            scraper_info["Featuring"] = ", ".join(featuring) if featuring else "N/A"
+            scraper_info["Main Enemy"] = ", ".join(enemy) if enemy else "N/A"
+            scraper_info["Writer(s)"] = ", ".join(writer) if writer else "N/A"
+            scraper_info["Director(s)"] = ", ".join(director) if director else "N/A"
 
         return render_template("doc-who.html", scraper_info=scraper_info)
     
@@ -171,12 +178,6 @@ def doc_who():
 @app.route("/about")#this is the code for the about page
 def about():
     return render_template("about.html")
-
-@app.route("/tube_php")#this is the code for the tube_php page
-def tube_php():
-    return render_template("tube_php.html")
-
-
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
