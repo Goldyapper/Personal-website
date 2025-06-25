@@ -157,15 +157,15 @@ form {
 .doc-who-input {
     padding: 10px;
     width: 300px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #ccc;
 }
 
 .doc-who-button {
     padding: 10px 20px;
     margin-left: 10px;
-    border-radius: 5px;
-    background-color: #007BFF;
+    border-radius: 8px;
+    background-color: #003865;
     color: white;
     border: none;
 }

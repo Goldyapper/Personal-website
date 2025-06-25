@@ -1,3 +1,6 @@
+import requests
+from bs4 import BeautifulSoup
+
 def fetch_data(name):
     # URL of the website to fetch data from
     url = "https://tardis.wiki/wiki/" + name + "_(audio_story)"
@@ -10,65 +13,51 @@ def fetch_data(name):
 
         # Access the content of the response
         soup = BeautifulSoup(response.text, 'html.parser')
-        season = parts = doctor = main_character = companions = featuring = enemy = writer = director = ''
+        seasons = parts = ''
+        doctor = main_character = companions = featuring = enemy = writer = director = ''
 		
         for item in soup.select('div.pi-item'): # a for loop that runs through at elements in the table
             label = item.select_one('h3.pi-data-label')
-            #print(label)
-            #Parts Data retrival
-            if label and 'Number of parts:' in label.text:
-                value = item.select_one('div.pi-data-value')
-                if value:
-                    parts = value.text.strip()
-            
-            #Doctor Data retrival
-            if label and 'Doctor:' in label.text:
-                values = item.select('div.pi-data-value a')
-                doctor = [d.text for d in values]
-				
-            #Main character Data retrival
-            if label and 'Main character(s):' in label.text:
-                values = item.select('div.pi-data-value a')
-                main_character = [m.text for m in values]
 
-            #companion retrival    
-            if label and 'Companion(s):' in label.text:
-                values = item.select('div.pi-data-value a')
-                companions = [c.text for c in values]
+            value_element = item.select_one('div.pi-data-value')
             
-            #Featuring retrival    
-            if label and 'Featuring' in label.text:
-                values = item.select('div.pi-data-value a')
-                featuring = [f.text for f in values]
-			
-            #Enemy retrival
-            if label and 'Main enemy' in label.text:
-                values = item.select('div.pi-data-value a')
-                enemy = [e.text for e in values]
-			
-            #Writers Retrival
-            if label and 'Writers'  in label.text:
-                values = item.select('div.pi-data-value a')
-                writer = [w.text for w in values]
-			
-			#Writer Retrival
-            if label and 'Writer'  in label.text:
-                values = item.select('div.pi-data-value a')
-                writer = [w.text for w in values]
-			
-            #Director Retrival
-            if label and 'Director' in label.text:
-                values = item.select('div.pi-data-value a')
-                director = [d.text for d in values]
-			
-            #Season Retrival
-            if label and 'Part of' in label.text:
-                values = item.select('div.pi-data-value a')
-                season = [s.text for s in values]
-				
-        
-        if season and parts and doctor and main_character and companions and featuring and enemy and writer and director == '':
-            return KeyError
+            if not label or not value_element:
+                continue
+
+            label_text = label.text.strip()
+
+            # Extract values
+            values = [a.text.strip() for a in value_element.select('a')] or [value_elem.text.strip()]
+
+            if 'Number of parts:' in label_text:
+                parts = value_element.text.strip()
+
+            elif 'Doctor:' in label_text:
+                doctor = values
+
+            elif 'Main character' in label_text:
+                main_character = values
+
+            elif 'Companion' in label_text:
+                companions = values
+
+            elif 'Featuring' in label_text:
+                featuring = values
+
+            elif 'Main enemy' in label_text:
+                enemy = values
+
+            elif 'Writers' in label_text or 'Writer' in label_text:
+                writer = values
+
+            elif 'Director' in label_text:
+                director = values
+
+            elif 'Part of' in label_text:
+                season = values
+
+        if not any([season, parts, doctor, main_character, companions, featuring, enemy, writer, director]):
+            raise KeyError("No valid data found on the page.")
         else:
             return season, parts,doctor,main_character,companions,featuring,enemy,writer,director
 
