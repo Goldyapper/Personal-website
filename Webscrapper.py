@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import quote
 
 def doctorconverter(data):
 	doctor_number_map = {
@@ -35,7 +36,9 @@ def fetch_data(name, media_type):
 	else:
 		media = ""
 
-	url = "https://tardis.wiki/wiki/" + name + media
+	episode_formatted = name.replace(' ', '_')
+
+	url = "https://tardis.wiki/wiki/" + episode_formatted + media
 
 	try:
 		
@@ -94,7 +97,7 @@ def fetch_data(name, media_type):
 
 
 		if not any([season, parts, doctor, main_character, companions, featuring, enemy, writer, director]):
-			raise KeyError("No valid data found on the page.")
+			raise KeyError("No valid data found on the page. Make sure you have spelt correctly and used correct Capitilisation")
 		else:
 			return season,parts,doctor,main_character,companions,featuring,enemy,writer,director
 
