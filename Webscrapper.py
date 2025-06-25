@@ -97,7 +97,7 @@ def fetch_data(name, media_type):
 
 
 		if not any([season, parts, doctor, main_character, companions, featuring, enemy, writer, director]):
-			raise KeyError("No valid data found on the page. Make sure you have spelt correctly and used correct Capitilisation")
+			raise KeyError("No valid data found on the page.")
 		else:
 			return season,parts,doctor,main_character,companions,featuring,enemy,writer,director
 

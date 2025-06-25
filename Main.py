@@ -147,7 +147,7 @@ def doc_who():
         print(data)
 
         if data[0] == 'N/A':
-            scraper_info = {"error": "No data found for this episode."}
+            scraper_info = {"error": "No data found for this episode. Make sure you have spelt correctly and used correct capitalization"}
         else:
             season, parts, doctor, main_character, companions, featuring, enemy, writer, director = data
 
