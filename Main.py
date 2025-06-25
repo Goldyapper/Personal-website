@@ -6,7 +6,7 @@ from collections import defaultdict, OrderedDict
 from datetime import datetime
 import requests, re
 from station_ids import station_ids
-import Webscrapper
+from Webscrapper import fetch_data, doctorconverter
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
@@ -27,9 +27,6 @@ class Users(UserMixin, db.Model):
 def extract_platform_number(name): # extract platform number
     match = re.search(r'\d+', name)
     return int(match.group()) if match else float('inf')
-
-
-
 
 # Create database
 with app.app_context():
@@ -142,6 +139,8 @@ def doc_who():
     if request.method == "POST":
         episode_name = request.form.get("episode")
         print(episode_name)
+        data = fetch_data(episode_name)
+        print(data)
         return render_template("doc-who.html", episode_name=episode_name)
     
     return render_template("doc-who.html",episode_name=episode_name) 
