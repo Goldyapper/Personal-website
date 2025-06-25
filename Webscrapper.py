@@ -45,7 +45,7 @@ def fetch_data(name, media_type):
 
 		# Access the content of the response
 		soup = BeautifulSoup(response.text, 'html.parser')
-		seasons = parts = ''
+		season = parts = ''
 		doctor = main_character = companions = featuring = enemy = writer = director = ''
 		
 		for item in soup.select('div.pi-item'): # a for loop that runs through at elements in the table
@@ -96,7 +96,7 @@ def fetch_data(name, media_type):
 		if not any([season, parts, doctor, main_character, companions, featuring, enemy, writer, director]):
 			raise KeyError("No valid data found on the page.")
 		else:
-			return [name],season,parts,doctor,main_character,companions,featuring,enemy,writer,director
+			return season,parts,doctor,main_character,companions,featuring,enemy,writer,director
 
 	except requests.exceptions.RequestException as e:
 		#print(f"An error occurred: {e}")

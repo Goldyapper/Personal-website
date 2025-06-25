@@ -149,7 +149,6 @@ form {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 33vh;
 }
 
 .doc-who-form input,
@@ -181,4 +180,15 @@ form {
 
 .doc-who-form button:hover {
     background-color: #375d83;
+}
+
+.scraper-info-box {
+    width: 300px;
+    margin: 0 auto 20px auto;
+    padding: 15px;
+    border: 2px solid #003865;
+    border-radius: 10px;
+    background-color: #f0f4f8;
+    font-family: monospace;
+    text-align: center;
 }

@@ -4,6 +4,16 @@
 {% block content %} <!-- contents of the page -->
     
     <h1>Dr. Who Webscrapper</h1>
+    <!-- Webscraper info box -->
+    {% if scraper_info %}
+        <div class="scraper-info-box">
+            {% for key, value in scraper_info.items() %}
+                <p><strong>{{ key }}:</strong> {{ value }}</p>
+            {% endfor %}    
+        </div>
+    {% endif %}
+
+
     <div class="doc-who-container">
     <p>Please insert episode name below:</p>
 

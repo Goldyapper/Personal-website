@@ -135,18 +135,38 @@ def tube():
 @app.route("/doc-who", methods =["GET","POST"])#code for the dr who page
 def doc_who():
     episode_name = ''
+    scraper_info = {}
 
     if request.method == "POST":
         episode_name = request.form.get("episode")
         media_type = request.form.get('media_type')
-        print(f"Media type selected: {media_type}")
         print(f"Episode name: {episode_name}")
+        print(f"Media type selected: {media_type}")
         
-        data = fetch_data(episode_name)
+        data = fetch_data(episode_name,media_type)
         print(data)
-        return render_template("doc-who.html", episode_name=episode_name)
+
+        if data[0] == 'N/A':
+            scraper_info = {"error": "No data found for this episode."}
+        else:
+            season, parts, doctor, main_character, companions, featuring, enemy, writer, director = data
+
+            scraper_info = {
+                "Episode Name": (episode_name),
+                "Season": ", ".join(season) if season else "N/A",
+                "Number of Parts": parts if parts else "N/A",
+                "Doctor(s)": ", ".join(doctor) if doctor else "N/A",
+                "Main Character(s)": ", ".join(main_character) if main_character else "N/A",
+                "Companion(s)": ", ".join(companions) if companions else "N/A",
+                "Featuring": ", ".join(featuring) if featuring else "N/A",
+                "Main Enemy": ", ".join(enemy) if enemy else "N/A",
+                "Writer(s)": ", ".join(writer) if writer else "N/A",
+                "Director(s)": ", ".join(director) if director else "N/A"
+            }
+
+        return render_template("doc-who.html", scraper_info=scraper_info)
     
-    return render_template("doc-who.html",episode_name=episode_name) 
+    return render_template("doc-who.html") 
 
 @app.route("/about")#this is the code for the about page
 def about():
