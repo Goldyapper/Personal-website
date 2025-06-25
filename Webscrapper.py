@@ -1,6 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import quote
+
+def smart_capitalize(text):
+    exceptions = {'the', 'of', 'for', 'and', 'a', 'an', 'in', 'on', 'at', 'to', 'with'}
+    words = text.lower().split()
+    result = []
+
+    for i, word in enumerate(words):
+        if i == 0 or word not in exceptions:
+            result.append(word.capitalize())
+        else:
+            result.append(word)
+    
+    return ' '.join(result)
+
+
 
 def doctorconverter(data):
 	doctor_number_map = {
@@ -36,7 +50,8 @@ def fetch_data(name, media_type):
 	else:
 		media = ""
 
-	episode_formatted = name.replace(' ', '_')
+	episode_formatted = smart_capitalize(name).replace(" ","_")
+	print(episode_formatted)
 
 	url = "https://tardis.wiki/wiki/" + episode_formatted + media
 
