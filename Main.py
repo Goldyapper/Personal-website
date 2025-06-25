@@ -135,9 +135,10 @@ def tube():
 
     return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time,station_list=list(station_ids.keys()))
 
-@app.route("/doc-who")#code for the dr who page
+@app.route("/doc-who", methods =["GET","POST"])#code for the dr who page
 def doc_who():
     episode_name = ''
+
     if request.method == "POST":
         episode_name = request.form.get("episode")
         print(episode_name)
