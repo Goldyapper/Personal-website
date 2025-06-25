@@ -131,6 +131,10 @@ def tube():
 
     return render_template("tube.html",platforms=platforms, station_name=station_name,fetched_time=fetched_time,station_list=list(station_ids.keys()))
 
+@app.route("/doc-who")#code for the dr who page
+def doc_who():
+    return render_template("doc-who.html") 
+
 @app.route("/about")#this is the code for the about page
 def about():
     return render_template("about.html")
