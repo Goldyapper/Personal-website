@@ -6,7 +6,7 @@ from collections import defaultdict, OrderedDict
 from datetime import datetime
 import requests, re
 from station_ids import station_ids
-from Webscrapper import fetch_data, doctorconverter
+from Webscrapper import fetch_data, smart_capitalize
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
@@ -152,7 +152,7 @@ def doc_who():
             season, parts, doctor, main_character, companions, featuring, enemy, writer, director = data
 
             scraper_info = {
-                "Episode Name": (episode_name),
+                "Episode Name": (smart_capitalize(episode_name)),
                 "Season": ", ".join(season) if season else "N/A",
                 "Number of Parts": parts if parts else "N/A",
                 "Doctor(s)": ", ".join(doctor) if doctor else "N/A",

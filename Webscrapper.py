@@ -14,8 +14,6 @@ def smart_capitalize(text):
     
     return ' '.join(result)
 
-
-
 def doctorconverter(data):
 	doctor_number_map = {
 		'Fugitive Doctor': 'Fugitive Dr',
