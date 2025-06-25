@@ -4,6 +4,12 @@
 {% block content %} <!-- contents of the page -->
     
     <h1>Dr. Who Webscrapper</h1>
-    <p>Input the episode you want infomation on</p>
+    <div class="doc-who-container">
+        <p>Please insert episode name</p>
+        <form action="/doc-who" method="post" class="doc-who-form">
+            <input type="text" name="episode" placeholder="Episode name" class="doc-who-input">
+            <button type="submit" class="doc-who-button">Submit</button>
+        </form>
+    </div>
 
 {% endblock %}

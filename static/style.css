@@ -138,3 +138,34 @@ form {
 .form-actions {
     margin-left: 90px; /* Aligns button with input fields */
 }
+
+
+.doc-who-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 33vh;
+}
+
+.doc-who-form {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.doc-who-input {
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.doc-who-button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+}
