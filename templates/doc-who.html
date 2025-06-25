@@ -5,9 +5,19 @@
     
     <h1>Dr. Who Webscrapper</h1>
     <div class="doc-who-container">
-        <p>Please insert episode name below:</p>
+    <p>Please insert episode name below:</p>
+
         <form action="/doc-who" method="post" class="doc-who-form">
-            <input type="text" name="episode" placeholder="Episode name" class="doc-who-input">
+            <label for="episode">Episode name:</label>
+            <input type="text" name="episode" placeholder="Episode name" class="doc-who-input" required>
+            
+            <label for="media_type">Select media type:</label><br>
+            <select id="media_type" name="media_type" required>
+                <option value="tv">TV</option>
+                <option value="audio" selected>Audio</option>
+                <option value="novel">Novel</option>
+            </select> 
+            
             <button type="submit" class="doc-who-button">Submit</button>
         </form>
     </div>
