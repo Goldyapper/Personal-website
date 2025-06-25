@@ -138,7 +138,10 @@ def doc_who():
 
     if request.method == "POST":
         episode_name = request.form.get("episode")
-        print(episode_name)
+        media_type = request.form.get('media_type')
+        print(f"Media type selected: {media_type}")
+        print(f"Episode name: {episode_name}")
+        
         data = fetch_data(episode_name)
         print(data)
         return render_template("doc-who.html", episode_name=episode_name)
