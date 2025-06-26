@@ -143,7 +143,7 @@ def doc_who():
 
         data = fetch_data(episode_name,media_type)
         if data[0] == 'N/A':
-            scraper_info = {"Error": "No data found for this episode. Make sure you have spelt correctly and used correct capitalization"}
+            scraper_info = {"Error": "No data found for this episode. Make sure you have spelt correctly."}
         else:
             season, parts, doctor, main_character, companions, featuring, enemy, writer, director = data
             
