@@ -138,7 +138,7 @@ def doc_who():
     scraper_info = {}
 
     if request.method == "POST":
-        episode_name = request.form.get("episode")
+        episode_name = smart_capitalize(request.form.get("episode"))
         media_type = request.form.get('media_type')
 
         data = fetch_data(episode_name,media_type)
@@ -154,7 +154,7 @@ def doc_who():
 
             # Build ordered dict with fields in desired order
             scraper_info = OrderedDict()
-            scraper_info["Episode Name"] = smart_capitalize(episode_name)
+            scraper_info["Episode Name"] = episode_name
             scraper_info["Season"] = ", ".join(season) if season else "N/A"
             scraper_info["Number of Parts"] = parts if parts else "N/A"
 
