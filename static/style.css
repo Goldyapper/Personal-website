@@ -97,6 +97,18 @@ select.station-select {
     margin-bottom: 5px;
     max-height: 100px;
 }
+
+.line-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    border-radius: 12px;
+    vertical-align: middle;
+}
+
 .refresh-time{
     font-weight: bold;
     margin: 10px;

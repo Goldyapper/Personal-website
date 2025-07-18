@@ -23,7 +23,15 @@
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
                 <div class="platform-depature-board">
-                    <h3>{{ platform }}</h3>
+                    <h3>{{ platform }}
+                        {% set line = platform.split(' - ')[-1].split()[0] | lower %}
+                        {% if line_colors.get(line) %}
+                            <span class="line-badge" style="background-color: {{ line_colors[line] }}">
+                                {{ line.capitalize() }}
+                            </span>
+                        {% endif %}
+                    </h3>
+                    </h3>
                     <ol>
                         {% for train in arrivals %}
                             <li>
