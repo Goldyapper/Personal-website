@@ -23,15 +23,17 @@
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
                 <div class="platform-depature-board">
-                    <h3>{{ platform }}
-                        {% set line_full = platform.split(' - ')[-1].replace(' Line', '').lower() %}
-                        {% if line_colors.get(line_full) %}
-                            <span class="line-badge" style="background-color: {{ line_colors[line_full] }}">
-                                {{ line_full.title() }}
+                    <h3>
+                        {{ platform }}
+                        {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
+                        {% for line in platform_lines %}
+                            <span class="line-badge"
+                                style="background-color: {{ line_colors[line|lower] if line|lower in line_colors else '#666' }};
+                                color: {{ 'black' if line|lower in ['circle', 'hammersmith & city', 'waterloo & city'] else 'white' }}">
+                                {{ line.capitalize() }}
                             </span>
-                        {% endif %}
-                    </h3>
-                    <ol>
+                        {% endfor %}
+                    </h3>                    <ol>
                         {% for train in arrivals %}
                             <li>
                                 <p>

@@ -120,7 +120,8 @@ def tube():
 
             platforms[platform_label].append({
                 "destination": destination,
-                "minutes": arrival.get("timeToStation",0)//60
+                "minutes": arrival.get("timeToStation",0)//60,
+                "line": line
             })
 
         # Sort platforms by numeric then alphabetical value
