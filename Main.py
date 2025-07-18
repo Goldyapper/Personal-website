@@ -113,9 +113,9 @@ def tube():
 
             # Build platform label
             if direction:
-                platform_label = f"Platform {platform_number} - {direction} - {line} Line"
+                platform_label = f"Platform {platform_number} - {direction} - "
             else:
-                platform_label = f"Platform {platform_number} - {line} Line"
+                platform_label = f"Platform {platform_number} - "
 
 
             platforms[platform_label].append({
