@@ -5,31 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict, OrderedDict
 from datetime import datetime
 import requests, re
-from station_ids import station_ids
+from station_info import station_ids, line_colors
 from Webscrapper import fetch_data, smart_capitalize
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "supersecretkey"
-
-# tube colours
-line_colors = {
-    "bakerloo": "#B36305",
-    "central": "#E32017",
-    "circle": "#FFD300",
-    "district": "#00782A",
-    "elizabeth": "#6950A1",
-    "hammersmith-city": "#F3A9BB",
-    "jubilee": "#A0A5A9",
-    "metropolitan": "#9B0056",
-    "northern": "#000000",
-    "piccadilly": "#003688",
-    "victoria": "#0098D4",
-    "waterloo-city": "#95CDBA",
-    "dlr": "#00AFAD",
-    "overground": "#EE7C0E",
-    "tram": "#84B817"
-}
 
 
 # Initialize database and login manager

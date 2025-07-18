@@ -24,13 +24,12 @@
             {% for platform, arrivals in platforms.items() %}
                 <div class="platform-depature-board">
                     <h3>{{ platform }}
-                        {% set line = platform.split(' - ')[-1].split()[0] | lower %}
-                        {% if line_colors.get(line) %}
-                            <span class="line-badge" style="background-color: {{ line_colors[line] }}">
-                                {{ line.capitalize() }}
+                        {% set line_full = platform.split(' - ')[-1].replace(' Line', '').lower() %}
+                        {% if line_colors.get(line_full) %}
+                            <span class="line-badge" style="background-color: {{ line_colors[line_full] }}">
+                                {{ line_full.title() }}
                             </span>
                         {% endif %}
-                    </h3>
                     </h3>
                     <ol>
                         {% for train in arrivals %}

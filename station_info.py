@@ -153,7 +153,6 @@ station_ids = {
     "Liverpool Street": ['910GLIVSTLL', '940GZZLULVT'],    
     "London Bridge": ['940GZZLULNB'],
     "London Liverpool Street": ['910GLIVST'],
-    "London Paddington": ['910GPADTON'],
     "Loughton": ['940GZZLULGN'],
     "Maidenhead": ['910GMDNHEAD'],
     "Manor House": ['940GZZLUMRH'],
@@ -296,4 +295,23 @@ station_ids = {
     "Woodford": ['940GZZLUWOF'],
     "Woodside Park": ['940GZZLUWOP'],
     "Woolwich": ['910GWOLWXR'],
+}
+
+# tube colours
+line_colors = {
+    "bakerloo": "#B36305",
+    "central": "#E32017",
+    "circle": "#FFD300",
+    "district": "#00782A",
+    "elizabeth": "#6950A1",
+    "hammersmith & city": "#F3A9BB",
+    "jubilee": "#A0A5A9",
+    "metropolitan": "#9B0056",
+    "northern": "#000000",
+    "piccadilly": "#003688",
+    "victoria": "#0098D4",
+    "waterloo & city": "#95CDBA",
+    "dlr": "#00AFAD",
+    "overground": "#EE7C0E",
+    "tram": "#84B817"
 }
