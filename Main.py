@@ -112,7 +112,7 @@ def tube():
             platform_number = number_match.group(1) if number_match else platform.strip()
 
             # Build platform label
-            if direction:
+            if direction and direction != "Unknown":
                 platform_label = f"Platform {platform_number} - {direction} - "
             else:
                 platform_label = f"Platform {platform_number} - "
