@@ -313,5 +313,4 @@ line_colors = {
     "waterloo & city": "#95CDBA",
     "dlr": "#00AFAD",
     "overground": "#EE7C0E",
-    "tram": "#84B817"
 }
