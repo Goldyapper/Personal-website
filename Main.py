@@ -57,7 +57,6 @@ def tube():
     arrivals = []
 
     for i, stop_point_id in enumerate(stop_point_ids):
-
         try:
             arrival_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}/Arrivals"
             response = requests.get(arrival_url)
@@ -65,21 +64,19 @@ def tube():
             arrivals += response.json()
 
             if i == 0:
-            
                 station_name_url = f"https://api.tfl.gov.uk/StopPoint/{stop_point_id}"
                 station_name_response = requests.get(station_name_url)
                 station_name_response.raise_for_status()
                 station_name = station_name_response.json()
                 station_name = station_name.get("commonName", station_name)
                 station_name = station_name.replace("Underground Station", "").strip()
-        
+
         except Exception as e:
                     print(f"Error: {e}")
                     station_name = "Unknown Station"
                     platforms = {}
                     fetched_time = "Unknown Time"
-
-
+        
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
 
         # Time of API pull
@@ -121,7 +118,7 @@ def tube():
             platforms[platform_label].append({
                 "destination": destination,
                 "minutes": arrival.get("timeToStation",0)//60,
-                "line": line
+                "line": line.lower()
             })
 
         # Sort platforms by numeric then alphabetical value

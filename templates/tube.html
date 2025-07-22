@@ -19,17 +19,28 @@
         <button type="submit" class="refresh-button">Refresh</button>
     </form>
     <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
+
+    <label for="line-filter">Filter by Line:</label>
+    <select id="line-filter" class="station-select" onchange="filterByLine()">
+        <option value="all">All Lines</option>
+        {% for line in line_colors.keys() %}
+            <option value="{{ line }}">{{ line.capitalize() }}</option>
+        {% endfor %}
+    </select>
+
     {% if platforms %}
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
-                <div class="platform-depature-board">
+                {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
+                {% set first_line = platform_lines[0]|lower if platform_lines else 'unknown' %}
+                <div class="platform-depature-board platform-section" data-line="{{ first_line }}">
                     <h3>
                         {{ platform }}
                         {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
                         {% for line in platform_lines %}
                             <span class="line-badge"
                                 style="background-color: {{ line_colors[line|lower] if line|lower in line_colors else '#666' }};
-                                color: {{ 'black' if line|lower in ['circle', 'hammersmith & city', 'waterloo & city'] else 'white' }}">
+                                        color: {{ 'black' if line|lower in ['circle', 'hammersmith & city', 'waterloo & city'] else 'white' }}">
                                 {{ line.capitalize() }}
                             </span>
                         {% endfor %}
