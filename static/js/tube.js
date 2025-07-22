@@ -1,17 +1,18 @@
 // Make filterByLine globally accessible
 function filterByLine() {
-    const selectedLine = document.getElementById('line-filter').value;
+    const selectedLine = document.getElementById('line-filter').value.toLowerCase();
     const sections = document.querySelectorAll('.platform-section');
 
     sections.forEach(section => {
-        const line = section.getAttribute('data-line');
-        if (selectedLine === 'all' || line === selectedLine) {
+        const lines = section.getAttribute('data-line').toLowerCase().split(',');
+        if (selectedLine === 'all' || lines.includes(selectedLine)) {
             section.style.display = 'block';
         } else {
             section.style.display = 'none';
         }
     });
 }
+
 
 // DOM ready setup
 document.addEventListener("DOMContentLoaded", function () {

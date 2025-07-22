@@ -26,14 +26,15 @@
             <option value="{{ line }}">{{ line.capitalize() }}</option>
         {% endfor %}
     </select>
+
     <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
+    
     {% if platforms %}
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
                 {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
                 {% set first_line = platform_lines[0]|lower if platform_lines else 'unknown' %}
-                <div class="platform-depature-board platform-section" data-line="{{ first_line }}">
-
+                <div class="platform-depature-board platform-section" data-line="{{ platform_lines | join(',') }}">
                     <h3>
                         {{ platform }}
                         {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
