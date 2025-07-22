@@ -18,6 +18,7 @@ h2 {
     margin-top: 0;
     padding-bottom: 5px;
     font-size: 24px;
+    text-decoration: underline;
 }
 p {
     font-size: 18px;
@@ -121,6 +122,13 @@ select.station-select {
     border-radius: 5px;
     cursor: pointer;
 }
+.filter-label {
+    display: inline;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+}
+
 .refresh-time{
     font-weight: bold;
     margin: 10px;

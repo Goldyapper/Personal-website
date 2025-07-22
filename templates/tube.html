@@ -18,16 +18,15 @@
         </select>
         <button type="submit" class="refresh-button">Refresh</button>
     </form>
-    <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
 
-    <label for="line-filter">Filter by Line:</label>
+    <label for="line-filter" class="filter-label">Filter by Line:</label>
     <select id="line-filter" class="station-select" onchange="filterByLine()">
         <option value="all">All Lines</option>
         {% for line in line_colors.keys() %}
             <option value="{{ line }}">{{ line.capitalize() }}</option>
         {% endfor %}
     </select>
-
+    <p class="refresh-time">Last updated at: {{ fetched_time }}</p>
     {% if platforms %}
         <div class="tube-board-grid">
             {% for platform, arrivals in platforms.items() %}
