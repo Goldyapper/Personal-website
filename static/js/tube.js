@@ -4,7 +4,7 @@ function filterByLine() {
     const sections = document.querySelectorAll('.platform-section');
 
     sections.forEach(section => {
-        const lines = section.getAttribute('data-line').toLowerCase().split(',');
+        const lines = section.getAttribute('data-line').toLowerCase().split(',').map(s => s.trim());
         if (selectedLine === 'all' || lines.includes(selectedLine)) {
             section.style.display = 'block';
         } else {

@@ -303,7 +303,7 @@ line_colors = {
     "central": "#E32017",
     "circle": "#FFD300",
     "district": "#00782A",
-    "elizabeth": "#6950A1",
+    "elizabeth line": "#6950A1",
     "hammersmith & city": "#F3A9BB",
     "jubilee": "#A0A5A9",
     "metropolitan": "#9B0056",

@@ -34,7 +34,7 @@
             {% for platform, arrivals in platforms.items() %}
                 {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
                 {% set first_line = platform_lines[0]|lower if platform_lines else 'unknown' %}
-                <div class="platform-depature-board platform-section" data-line="{{ platform_lines | join(',') }}">
+                <div class="platform-depature-board platform-section"data-line="{{ platform_lines | map('lower') | map('trim') | join(',') }}">
                     <h3>
                         {{ platform }}
                         {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
