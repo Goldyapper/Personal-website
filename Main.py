@@ -79,6 +79,16 @@ def tube():
         
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
 
+        # Deduplicate by vehicleId
+        seen_vehicle_ids = set()
+        unique_arrivals = []
+        for arrival in arrivals:
+            vehicle_id = arrival.get("vehicleId")
+            if vehicle_id and vehicle_id not in seen_vehicle_ids:
+                seen_vehicle_ids.add(vehicle_id)
+                unique_arrivals.append(arrival)
+
+
         # Time of API pull
         fetched_time = datetime.now().strftime('%H:%M:%S')
 
