@@ -78,21 +78,11 @@ def tube():
                     fetched_time = "Unknown Time"
         
         arrivals.sort(key=lambda x: x['timeToStation']) #sort arrivals by quickest arrival
-
-        # Deduplicate by vehicleId
-        seen_vehicle_ids = set()
-        unique_arrivals = []
-        for arrival in arrivals:
-            vehicle_id = arrival.get("vehicleId")
-            if vehicle_id and vehicle_id not in seen_vehicle_ids:
-                seen_vehicle_ids.add(vehicle_id)
-                unique_arrivals.append(arrival)
-
-
         # Time of API pull
         fetched_time = datetime.now().strftime('%H:%M:%S')
 
         platforms = defaultdict(list)
+        seen = set() #track unique trains
 
         for arrival in arrivals:
             platform = arrival.get("platformName")
@@ -107,9 +97,16 @@ def tube():
             if destination == station_name:
                 destination = "Terminating here"
             
-            line = arrival.get("lineName","")
+            line = arrival.get("lineName","").lower()
             if not line:
                 continue
+
+                # Deduplication key
+            rounded_minutes = arrival.get("timeToStation", 0) // 30  # Group into 30s intervals
+            key = (destination.lower(), line, rounded_minutes)
+            if key in seen:
+                continue
+            seen.add(key)
 
             direction_match = re.search(r'(Northbound|Southbound|Eastbound|Westbound)', platform, re.IGNORECASE)
             direction = direction_match.group(1) if direction_match else "Unknown"
