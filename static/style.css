@@ -110,8 +110,27 @@ select.station-select {
     vertical-align: middle;
     min-width: 70px;
     text-align: center;
-    
 }
+.line-circle,
+.line-hammersmith-and-city,
+.line-waterloo-and-city {
+    color: black;
+}
+.line-bakerloo { background-color: #B36305; }
+.line-central { background-color: #E32017; }
+.line-circle { background-color: #FFD300; }
+.line-district { background-color: #00782A; }
+.line-elizabeth-line { background-color: #6950A1; }
+.line-hammersmith-and-city { background-color: #F3A9BB; }
+.line-jubilee { background-color: #A0A5A9; }
+.line-metropolitan { background-color: #9B0056; }
+.line-northern { background-color: #000000; }
+.line-piccadilly { background-color: #003688; }
+.line-victoria { background-color: #0098D4; }
+.line-waterloo-and-city { background-color: #95CDBA; }
+.line-dlr { background-color: #00AFAD; }
+.line-overground { background-color: #EE7C0E; }
+
 .station-select {
     font-size: 16px;
     padding: 8px 14px;

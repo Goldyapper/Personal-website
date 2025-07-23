@@ -39,9 +39,7 @@
                         {{ platform }}
                         {% set platform_lines = arrivals | map(attribute='line') | select() | unique | list %}
                         {% for line in platform_lines %}
-                            <span class="line-badge"
-                                style="background-color: {{ line_colors[line|lower] if line|lower in line_colors else '#666' }};
-                                        color: {{ 'black' if line|lower in ['circle', 'hammersmith & city', 'waterloo & city'] else 'white' }}">
+                            <span class="line-badge line-{{ line|lower|replace(' ', '-')|replace('&', 'and') }}">
                                 {{ line.capitalize() }}
                             </span>
                         {% endfor %}
