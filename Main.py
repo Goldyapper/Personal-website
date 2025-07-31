@@ -141,6 +141,7 @@ def tube():
 @app.route("/doc-who", methods =["GET","POST"])#code for the dr who page
 def doc_who():
     episode_name = ''
+    media_type= ''
     scraper_info = {}
 
     if request.method == "POST":

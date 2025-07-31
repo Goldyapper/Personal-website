@@ -23,8 +23,8 @@
             
             <label for="media_type">Select media type:</label><br>
             <select id="media_type" name="media_type" required>
-                <option value="tv" {% if media_type == "tv" %}selected{% endif %}>TV</option>
-                <option value="audio" {% if media_type == "audio" or not media_type %}selected{% endif %}>Audio</option>
+                <option value="tv" {% if media_type == "tv" %}or not media_type %}selected{% endif %}>TV</option>
+                <option value="audio" {% if media_type == "audio" %}selected{% endif %}>Audio</option>
                 <option value="novel" {% if media_type == "novel" %}selected{% endif %}>Novel</option>
             </select> 
             
