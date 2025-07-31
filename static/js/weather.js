@@ -20,11 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (!city) {
             result.innerHTML = `<p style="color:red;">Please enter a city name.</p>`;
+            result.style.display = "block";
             return;
         }
 
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`;
         result.innerHTML = `<p>Loading...</p>`;//this shows the user that the website is loading infomation
+        result.style.display = "block";
 
         try {
             const res = await fetch(url);
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
             const time = new Date().toLocaleTimeString();
 
-            const result = ` 
+            const resultHTML = ` 
                 <h3>Weather in ${data.name} at ${time} </h3>
                 <p><strong>Temperature:</strong> ${data.main.temp} °C</p>
                 <p><strong>Weather:</strong> ${data.weather[0].main}</p>
@@ -41,9 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Wind:</strong> ${data.wind.speed} m/s</p>
             `;//pulls relevant info
 
-            document.getElementById("weatherResult").innerHTML = result;//return the results
+            result.innerHTML = resultHTML;
+            result.style.display = "block";
+            
         } catch (error) {
             document.getElementById("weatherResult").innerHTML = `<p style="color:red;">Error: ${error.message}</p>`; //error mesage if the city is wrong
+            result.style.display = "block";
         }
     }
 });

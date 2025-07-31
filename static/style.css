@@ -281,6 +281,7 @@ form {
 
 /* Weather results box */
 .weather-result {
+    display: none; /* hide initially */
     background-color: #000000;
     border: 4px solid #ff7900;
     border-radius: 12px;
