@@ -19,13 +19,13 @@
 
         <form action="/doc-who" method="post" class="doc-who-form">
             <label for="episode">Episode name:</label>
-            <input type="text" name="episode" placeholder="Episode name" class="doc-who-input" required>
+            <input type="text" name="episode" placeholder="Episode name" class="doc-who-input" required value="{{ episode_name }}">
             
             <label for="media_type">Select media type:</label><br>
             <select id="media_type" name="media_type" required>
-                <option value="tv">TV</option>
-                <option value="audio" selected>Audio</option>
-                <option value="novel">Novel</option>
+                <option value="tv" {% if media_type == "tv" %}selected{% endif %}>TV</option>
+                <option value="audio" {% if media_type == "audio" or not media_type %}selected{% endif %}>Audio</option>
+                <option value="novel" {% if media_type == "novel" %}selected{% endif %}>Novel</option>
             </select> 
             
             <button type="submit" class="doc-who-button">Submit</button>

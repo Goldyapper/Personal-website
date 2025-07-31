@@ -117,9 +117,9 @@ def tube():
 
             # Build platform label
             if direction and direction != "Unknown":
-                platform_label = f"Platform {platform_number} - {direction} - "
+                platform_label = f"Platform {platform_number} - {direction} -"
             else:
-                platform_label = f"Platform {platform_number} - "
+                platform_label = f"Platform {platform_number} -"
 
 
             platforms[platform_label].append({
@@ -150,13 +150,12 @@ def doc_who():
         data = fetch_data(episode_name,media_type)
         if data[0] == 'N/A':
             scraper_info = {"Error": "No data found for this episode. Make sure you have spelt correctly."}
+            return render_template("doc-who.html", scraper_info=scraper_info, episode_name=episode_name, media_type=media_type)
+            
         else:
             season, parts, doctor, main_character, companions, featuring, enemy, writer, director = data
             
-            if doctor:
-                main_character = []
-            elif main_character:
-                doctor = []
+            doctor, main_character = ((doctor, []) if doctor else ([], main_character))
 
             # Build ordered dict with fields in desired order
             scraper_info = OrderedDict()
@@ -177,9 +176,9 @@ def doc_who():
             scraper_info["Writer(s)"] = ", ".join(writer) if writer else "N/A"
             scraper_info["Director(s)"] = ", ".join(director) if director else "N/A"
 
-        return render_template("doc-who.html", scraper_info=scraper_info)
+        return render_template("doc-who.html", scraper_info=scraper_info, episode_name=episode_name, media_type=media_type)    
     
-    return render_template("doc-who.html") 
+    return render_template("doc-who.html", scraper_info=scraper_info, episode_name=episode_name, media_type=media_type)
 
 @app.route("/about")#this is the code for the about page
 def about():
