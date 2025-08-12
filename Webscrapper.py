@@ -50,7 +50,7 @@ def fetch_data(name, media_type):
 
 	episode_formatted = smart_capitalize(name).replace(" ","_")
 
-	url = "https://tardis.wiki/wiki/" + episode_formatted + media
+	url = "https://tardis.fandom.com/wiki/" + episode_formatted + media
 
 	try:
 		
