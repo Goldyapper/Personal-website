@@ -180,10 +180,6 @@ def doc_who():
     
     return render_template("doc-who.html", scraper_info=scraper_info, episode_name=episode_name, media_type=media_type)
 
-@app.route("/about")#this is the code for the about page
-def about():
-    return render_template("about.html")
-
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
