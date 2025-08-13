@@ -8,7 +8,9 @@
     {% if scraper_info %}
         <div class="scraper-info-box">
             {% for key, value in scraper_info.items() %}
-                <p><strong>{{ key }}:</strong> {{ value }}</p>
+                {% if value != "N/A"%}
+                    <p><strong>{{ key }}:</strong> {{ value }}</p>
+                {% endif %}
             {% endfor %}    
         </div>
     {% endif %}
