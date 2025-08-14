@@ -193,10 +193,13 @@ def doc_who():
     
     return render_template("doc-who.html", scraper_info=scraper_info, episode_name=episode_name, media_type=media_type)
 
-@app.route("/rowing")
+@app.route("/rowing",  methods=["GET", "POST"] )
 @permission_required("admin")
 def rowing():
-    return redirect(url_for("tube"))
+    if request.method == "POST":
+        return render_template("rowing.html")
+
+    return render_template("rowing.html")
 
 
 @app.route('/register', methods=["GET", "POST"])

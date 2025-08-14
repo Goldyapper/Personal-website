@@ -195,22 +195,22 @@ form {
 .form-actions {
     margin-left: 90px; /* Aligns button with input fields */
 }
-.doc-who-form {
+.doc-who-form, .rowing-form {
     margin-top: 10px;
     display: flex;
     flex-direction: column; 
 }
 
-.doc-who-container {
+.doc-who-container, .rowing-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.doc-who-form input,
-.doc-who-form select,
-.doc-who-form button {
+.doc-who-form input, .rowing-form input,
+.doc-who-form select, .rowing-form select,
+.doc-who-form button, .rowing-form button {
     width: 250px;
     margin: 10px 0;
     padding: 10px;
@@ -219,14 +219,14 @@ form {
     font-size: 12px;
 }
 
-.doc-who-form {
+.doc-who-form, .rowing-form {
     margin-top: 10px;
     display: flex;
     align-items: center;
     text-align: center;
 }
 
-.doc-who-button {
+.doc-who-button, .rowing-button {
     margin-left: 10px;
     border-radius: 8px;
     background-color: #003865;
@@ -235,7 +235,7 @@ form {
     cursor: pointer;
 }
 
-.doc-who-form button:hover {
+.doc-who-form button:hover, .rowing-button:hover {
     background-color: #375d83;
 }
 

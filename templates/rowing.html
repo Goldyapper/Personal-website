@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Rowing - Adam's Website{% endblock %}<!-- title of the page -->
+
+{% block content %} <!-- contents of the page -->
+    
+    <h1>Rowing</h1>
+    <!-- graph info box -->
+    {% if scraper_info %}
+        <div class="graph">  
+        </div>
+    {% endif %}
+
+
+    <div class="rowing-container">
+    <p>Please insert distance per each leg below:</p>
+
+        <form action="/rowing" method="post" class="rowing-form">
+            <label for="leg_1">Leg 1 (0 - 5 mins):</label>
+            <input type="float" name="leg_1" placeholder="0.0" class="leg_1_input">
+            
+            
+            <button type="submit" class="rowing-button">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
