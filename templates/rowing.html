@@ -12,13 +12,16 @@
 
 
     <div class="rowing-container">
-    <p>Please insert distance per each leg below:</p>
+    <p>Please insert distance (KM) per each leg below:</p>
 
         <form action="/rowing" method="post" class="rowing-form">
             <label for="leg_1">Leg 1 (0 - 5 mins):</label>
-            <input type="float" name="leg_1" placeholder="0.0" class="leg_1_input">
-            
-            
+            <input type="number" name="leg_1" placeholder="0.00KM" class="leg_1_input" step="0.001" required>
+            <label for="leg_2">Leg 2 (5 - 10 mins):</label>
+            <input type="number" name="leg_2" placeholder="0.00KM" class="leg_2_input" step="0.001" required>
+            <label for="leg_3">Leg 3 (10 - 15 mins):</label>
+            <input type="number" name="leg_3" placeholder="0.00KM" class="leg_3_input" step="0.001" required>
+
             <button type="submit" class="rowing-button">Submit</button>
         </form>
     </div>

@@ -7,6 +7,7 @@ from datetime import datetime
 import requests, re
 from station_info import station_ids, line_colors
 from Webscrapper import fetch_data, smart_capitalize
+from datetime import date
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
@@ -24,6 +25,18 @@ class Users(UserMixin, db.Model):
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     role = db.Column(db.String(50), default="user")
+
+class Rowingdata(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)  # link to Users table    password = db.Column(db.String(250), nullable=False)
+    date = db.Column(db.Date, nullable = False, default=datetime.utcnow)
+    leg_1 = db.Column(db.Float, nullable=False)
+    leg_2 = db.Column(db.Float, nullable=False)
+    leg_3 = db.Column(db.Float, nullable=False)
+    total = db.Column(db.Float, nullable=False)
+
+    # Relationship to Users
+    user = db.relationship("Users", backref=db.backref("rowing_entries", lazy=True))
 
 def extract_platform_number(name): # extract platform number
     match = re.search(r'\d+', name)
@@ -196,8 +209,18 @@ def doc_who():
 @app.route("/rowing",  methods=["GET", "POST"] )
 @permission_required("admin")
 def rowing():
+    leg_1 = leg_2 = leg_3 = total = ''
+    todays_date = date.today()
+
     if request.method == "POST":
-        return render_template("rowing.html")
+
+        leg_1 = float(request.form.get("leg_1",0))
+        leg_2 = float(request.form.get("leg_2",0))
+        leg_3 = float(request.form.get("leg_3",0))
+        total = leg_1 + leg_2 +leg_3
+        print(total,todays_date)
+
+        return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,total=total,date=todays_date)
 
     return render_template("rowing.html")
 
@@ -242,13 +265,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("home"))
-
-# Assign "user" role to any users without a role
-with app.app_context():
-    users_without_role = Users.query.filter(Users.role.is_(None)).all()
-    for user in users_without_role:
-        user.role = "user"
-    db.session.commit()
 
 if __name__ == "__main__":
     app.run(debug=True)
