@@ -19,6 +19,9 @@
                 <a href="/weather">Weather</a>
                 <a href="/tube">Tube</a>
                 <a href="/doc-who">Dr. Who</a>
+                {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                    <a href="/rowing">Rowing</a>
+                {% endif %}
             </div>
             <div class="nav-right">
                 {% if not current_user.is_authenticated %}
