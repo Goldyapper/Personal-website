@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,10 +23,23 @@ class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
+    role = db.Column(db.String(50), default="user")
 
 def extract_platform_number(name): # extract platform number
     match = re.search(r'\d+', name)
     return int(match.group()) if match else float('inf')
+
+def permission_required(role):
+    def decorator(f):
+        #@wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not current_user.is_authenticated:
+                abort(401)  # Not logged in
+            if current_user.role != role:
+                abort(403)  # Forbidden
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
 
 # Create database
 with app.app_context():
@@ -180,6 +193,12 @@ def doc_who():
     
     return render_template("doc-who.html", scraper_info=scraper_info, episode_name=episode_name, media_type=media_type)
 
+@app.route("/rowing")
+@permission_required("admin")
+def rowing():
+    return redirect(url_for("tube"))
+
+
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -220,6 +239,13 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("home"))
+
+# Assign "user" role to any users without a role
+with app.app_context():
+    users_without_role = Users.query.filter(Users.role.is_(None)).all()
+    for user in users_without_role:
+        user.role = "user"
+    db.session.commit()
 
 if __name__ == "__main__":
     app.run(debug=True)
