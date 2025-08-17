@@ -218,7 +218,7 @@ def doc_who():
 @app.route("/rowing",  methods=["GET", "POST"] )
 @permission_required("admin")
 def rowing():
-    leg_1 = leg_2 = leg_3 = total = ''
+    leg_1 = leg_2 = leg_3 = ''
     todays_date = date.today()
 
     if request.method == "POST":
@@ -226,14 +226,12 @@ def rowing():
         leg_1 = float(request.form.get("leg_1",0))
         leg_2 = float(request.form.get("leg_2",0))
         leg_3 = float(request.form.get("leg_3",0))
-        #total = leg_1 + leg_2 +leg_3
-        print(total,todays_date)
 
         current_entry = Rowingdata(current_user.id, leg_1, leg_2, leg_3)
         db.session.add(current_entry)
         db.session.commit()
 
-        return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,total=total,date=todays_date)
+        return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,date=todays_date)
 
     return render_template("rowing.html")
 
