@@ -29,11 +29,13 @@ class Users(UserMixin, db.Model):
 class Rowingdata(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)  # link to Users table    password = db.Column(db.String(250), nullable=False)
+    
     date = db.Column(db.Date, nullable = False, default=datetime.utcnow)
     leg_1 = db.Column(db.Float, nullable=False)
     leg_2 = db.Column(db.Float, nullable=False)
     leg_3 = db.Column(db.Float, nullable=False)
     total = db.Column(db.Float, nullable=False)
+    avg_500m_time_in_secs = db.Column(db.Float, nullable = False)
 
     # Relationship to Users
     user = db.relationship("Users", backref=db.backref("rowing_entries", lazy=True))
@@ -44,8 +46,15 @@ class Rowingdata(db.Model):
         self.leg_2 = leg_2
         self.leg_3 = leg_3
         self.total = leg_1 + leg_2 + leg_3
+        
         if date:
             self.date = date
+
+        if self.total > 0:
+            self.avg_500m_time_in_secs = round((900 / self.total) * 500, 2)
+        else:
+            self.avg_500m_time_in_secs = 0  # fallback if distance is 0
+    
 
 def extract_platform_number(name): # extract platform number
     match = re.search(r'\d+', name)
