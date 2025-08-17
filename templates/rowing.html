@@ -2,14 +2,18 @@
 {% block title %}Rowing - Adam's Website{% endblock %}<!-- title of the page -->
 
 {% block content %} <!-- contents of the page -->
-    
     <h1>Rowing</h1>
-    <!-- graph info box -->
-    {% if scraper_info %}
-        <div class="graph">  
-        </div>
+    <h2 style="text-align: center;">Rowing Progress</h2>
+    {% if dates|length > 0 %}
+        <canvas id="rowingChart" style="width:100%; max-width:800px; height:400px;"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ url_for('static', filename='js/rowing.js') }}"></script>
+        <script>
+            renderRowingChart({{ dates|tojson }}, {{ avg_times|tojson }});
+        </script>
+    {% else %}
+        <p>No rowing data yet. Enter distances above to see your progress.</p>
     {% endif %}
-
 
     <div class="rowing-container">
     <p>Please insert distance (Meters) per each leg below:</p>

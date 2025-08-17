@@ -240,9 +240,13 @@ def rowing():
         db.session.add(current_entry)
         db.session.commit()
 
-        return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,date=todays_date)
+    entries = Rowingdata.query.filter_by(user_id=current_user.id).order_by(Rowingdata.date).all()
 
-    return render_template("rowing.html")
+    # Prepare data for the graph
+    dates = [e.date.strftime("%Y-%m-%d") for e in entries]
+    avg_times = [float(e.avg_500m_time_in_secs) for e in entries]  # avg 500m time
+    print(dates, avg_times)
+    return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,date=todays_date,avg_times=avg_times,dates=dates)
 
 
 @app.route('/register', methods=["GET", "POST"])
