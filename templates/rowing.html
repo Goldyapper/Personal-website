@@ -5,7 +5,7 @@
     <h1>Rowing</h1>
     <h2 style="text-align: center;">Rowing Progress</h2>
     {% if dates|length > 0 %}
-        <canvas id="rowingChart" style="width:100%; max-width:800px; height:400px;"></canvas>
+        <canvas id="rowingChart" style="width:100%; height:300px;"></canvas>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="{{ url_for('static', filename='js/rowing.js') }}"></script>
         <script>

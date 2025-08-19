@@ -245,7 +245,6 @@ def rowing():
     # Prepare data for the graph
     dates = [e.date.strftime("%Y-%m-%d") for e in entries]
     avg_times = [float(e.avg_500m_time_in_secs) for e in entries]  # avg 500m time
-    print(dates, avg_times)
     return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,date=todays_date,avg_times=avg_times,dates=dates)
 
 
