@@ -8,7 +8,6 @@ from utils import permission_required
 rowing_bp = Blueprint("rowing", __name__)
 
 @rowing_bp.route("/rowing", methods=["GET","POST"])
-@permission_required("admin")
 def rowing():
     leg_1 = leg_2 = leg_3 = ''
     todays_date = date.today()
