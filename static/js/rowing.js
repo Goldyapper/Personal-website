@@ -2,59 +2,99 @@ function renderRowingChart(dates, avg_times) {
     const ctx = document.getElementById('rowingChart').getContext('2d');
 
     const majorYStep = 5;
-    const minorYStep = majorYStep/2;
+    const minorYStep = majorYStep / 2;
 
     const rawMax = Math.max(...avg_times) + minorYStep;
     const rawMin = Math.min(...avg_times) - minorYStep;
     const minY = Math.floor(rawMin / minorYStep) * minorYStep;
     const maxY = Math.ceil(rawMax / minorYStep) * minorYStep;
 
-    // Convert data into scatter {x, y} points
-    const scatterData = dates.map((date, i) => ({
-        x: date,
-        y: avg_times[i]
-    }));
+    const scatterData = dates.map((date, i) => ({ x: date, y: avg_times[i] }));
 
-    const firstDateLinePlugin = {
-        id: 'firstDateLine',
+    // Linear regression plugin
+    const linearRegressionPlugin = {
+        id: 'linearRegression',
         afterDraw: chart => {
             const ctx = chart.ctx;
-            const xAxis = chart.scales.x;
-            const yAxis = chart.scales.y;
+            const xScale = chart.scales.x;
+            const yScale = chart.scales.y;
+            const data = chart.data.datasets[0].data;
+            if (data.length < 2) return;
 
-            const x = xAxis.getPixelForValue(dates[0]); // first tick (first date)
+            const xVals = data.map(d => new Date(d.x).getTime());
+            const yVals = data.map(d => d.y);
+            const n = xVals.length;
+
+            const sumX = xVals.reduce((a,b) => a+b, 0);
+            const sumY = yVals.reduce((a,b) => a+b, 0);
+            const sumXY = xVals.reduce((a,b,i) => a + b*yVals[i], 0);
+            const sumXX = xVals.reduce((a,b) => a + b*b, 0);
+
+            const slope = (n*sumXY - sumX*sumY) / (n*sumXX - sumX*sumX);
+            const intercept = (sumY - slope*sumX) / n;
+
+            const xMin = Math.min(...xVals);
+            const xMax = Math.max(...xVals);
+
             ctx.save();
             ctx.beginPath();
-            ctx.moveTo(x, yAxis.top);
-            ctx.lineTo(x, yAxis.bottom);
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = '#000000'; // solid black
+            ctx.moveTo(xScale.getPixelForValue(xMin), yScale.getPixelForValue(slope*xMin + intercept));
+            ctx.lineTo(xScale.getPixelForValue(xMax), yScale.getPixelForValue(slope*xMax + intercept));
+            ctx.strokeStyle = 'rgba(60, 0, 255, 0.75)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
             ctx.stroke();
             ctx.restore();
         }
     };
 
+    // First-date vertical line plugin
+    const Blackborderplugin = {
+        id: 'firstDateLine',
+        afterDatasetsDraw: chart => {
+            const dataset = chart.data.datasets[0].data;
+            if (!dataset || dataset.length === 0) return;
 
-    // Generate all Y ticks (major + minor)
+            const ctx = chart.ctx;
+            const { top, bottom, left, right } = chart.chartArea;
+
+            ctx.save();
+            ctx.beginPath();
+
+            // Left vertical line (first date)
+            ctx.moveTo(left, top);
+            ctx.lineTo(left, bottom);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Bottom horizontal line
+            ctx.beginPath();
+            ctx.moveTo(left, bottom);
+            ctx.lineTo(right, bottom);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    };
+
+    // Y-axis ticks
     const yTicks = [];
     for (let v = minY; v <= maxY; v += minorYStep) {
-        yTicks.push({
-            value: v,
-            major: v % majorYStep === 0
-        });
+        yTicks.push({ value: v, major: v % majorYStep === 0 });
     }
 
     new Chart(ctx, {
         type: 'scatter',
         data: {
-            //labels: dates,
             datasets: [{
                 label: 'Avg 500m speed',
                 data: scatterData,
                 borderColor: '#b22222',
-                fill: false,
                 backgroundColor: '#b22222',
-                showLine: false
+                fill: false
             }]
         },
         options: {
@@ -71,23 +111,22 @@ function renderRowingChart(dates, avg_times) {
                         color: '#222222'
                     },
                     grid: {
-                        color: context => context.tick && context.tick.major
-                            ? 'rgba(0, 0, 0, 0.5)'     // major horizontal line
-                            : 'rgba(0, 0, 0, 0.1)',    // minor horizontal line (lighter, still visible)
+                        color: context => context.tick && context.tick.major ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)',
                         drawTicks: true,
                         tickLength: 5
                     }
                 },
                 x: {
                     type: 'time',
-                    time: {
-                        unit:'day'
+                    time: { unit: 'day', tooltipFormat: 'dd-MM-yyyy' },
+                    ticks: {
+                        autoSkip: false,
+                        callback: value => new Date(value).toISOString().split('T')[0]
                     },
-                    ticks: { autoSkip: false },
                     grid: {
-                        color: 'rgba(26, 0, 128, 0.5)', // faint vertical grid lines
+                        color: 'rgba(26,0,128,0.5)',
                         drawTicks: true,
-                        tickLength: 5,
+                        tickLength: 5
                     }
                 }
             },
@@ -95,6 +134,6 @@ function renderRowingChart(dates, avg_times) {
                 legend: { display: true, labels: { color: '#222222' } }
             }
         },
-        plugins: [firstDateLinePlugin]
+        plugins: [Blackborderplugin, linearRegressionPlugin]
     });
 }

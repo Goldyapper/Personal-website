@@ -11,13 +11,13 @@
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <!-- Luxon (date library) -->
+        <!-- Date library -->
         <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 
-        <!-- Chart.js adapter for Luxon -->
+        <!-- Chart.js adapter for Dates -->
         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script>
 
-        <!-- Your custom chart code -->
+        <!-- Graph code -->
         <script src="{{ url_for('static', filename='js/rowing.js') }}"></script>
         <script>
             const dates = {{ dates|tojson }};
