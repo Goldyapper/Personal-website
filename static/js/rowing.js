@@ -9,6 +9,12 @@ function renderRowingChart(dates, avg_times) {
     const minY = Math.floor(rawMin / minorYStep) * minorYStep;
     const maxY = Math.ceil(rawMax / minorYStep) * minorYStep;
 
+    // Convert data into scatter {x, y} points
+    const scatterData = dates.map((date, i) => ({
+        x: date,
+        y: avg_times[i]
+    }));
+
     const firstDateLinePlugin = {
         id: 'firstDateLine',
         afterDraw: chart => {
@@ -16,7 +22,7 @@ function renderRowingChart(dates, avg_times) {
             const xAxis = chart.scales.x;
             const yAxis = chart.scales.y;
 
-            const x = xAxis.getPixelForTick(0); // first tick (first date)
+            const x = xAxis.getPixelForValue(dates[0]); // first tick (first date)
             ctx.save();
             ctx.beginPath();
             ctx.moveTo(x, yAxis.top);
@@ -39,17 +45,21 @@ function renderRowingChart(dates, avg_times) {
     }
 
     new Chart(ctx, {
-        type: 'line',
+        type: 'scatter',
         data: {
-            labels: dates,
+            //labels: dates,
             datasets: [{
-                label: 'Avg 500m Time (s)',
-                data: avg_times,
+                label: 'Avg 500m speed',
+                data: scatterData,
                 borderColor: '#b22222',
-                fill: false
+                fill: false,
+                backgroundColor: '#b22222',
+                showLine: false
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     min: minY,
@@ -69,9 +79,13 @@ function renderRowingChart(dates, avg_times) {
                     }
                 },
                 x: {
+                    type: 'time',
+                    time: {
+                        unit:'day'
+                    },
                     ticks: { autoSkip: false },
                     grid: {
-                        color: 'rgba(128, 0, 0, 0.5)', // faint vertical grid lines
+                        color: 'rgba(26, 0, 128, 0.5)', // faint vertical grid lines
                         drawTicks: true,
                         tickLength: 5,
                     }

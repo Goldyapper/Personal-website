@@ -3,13 +3,26 @@
 
 {% block content %} <!-- contents of the page -->
     <h1>Rowing</h1>
-    <h2 style="text-align: center;">Rowing Progress</h2>
+    <h2 style="text-align: center;">{{ current_user.username }}'s Rowing Progress</h2>
     {% if dates|length > 0 %}
-        <canvas id="rowingChart" style="width:100%; height:300px;"></canvas>
+        <div style="position: relative; height:350px; width:100%;">
+            <canvas id="rowingChart"></canvas>
+        </div>
+        <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- Luxon (date library) -->
+        <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+
+        <!-- Chart.js adapter for Luxon -->
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script>
+
+        <!-- Your custom chart code -->
         <script src="{{ url_for('static', filename='js/rowing.js') }}"></script>
         <script>
-            renderRowingChart({{ dates|tojson }}, {{ avg_times|tojson }});
+            const dates = {{ dates|tojson }};
+            const avg_times = {{ avg_times|tojson }};
+            renderRowingChart(dates, avg_times);
         </script>
     {% else %}
         <p>No rowing data yet. Enter distances above to see your progress.</p>
