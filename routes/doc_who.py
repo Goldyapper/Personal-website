@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from collections import OrderedDict
-from Webscrapper import fetch_data, smart_capitalize
+from utils import fetch_data, smart_capitalize
 
 doc_who_bp = Blueprint("doc_who", __name__)
 
