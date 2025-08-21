@@ -45,7 +45,7 @@ class Rowingdata(db.Model):
         self.leg_1 = leg_1
         self.leg_2 = leg_2
         self.leg_3 = leg_3
-        self.total = leg_1 + leg_2 + leg_3
+        self.total = round(leg_1 + leg_2 + leg_3)
         
         if date:
             self.date = date
