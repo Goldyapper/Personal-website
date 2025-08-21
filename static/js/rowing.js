@@ -9,7 +9,10 @@ function renderRowingChart(dates, avg_times) {
     const minY = Math.floor(rawMin / minorYStep) * minorYStep;
     const maxY = Math.ceil(rawMax / minorYStep) * minorYStep;
 
-    const scatterData = dates.map((date, i) => ({ x: date, y: avg_times[i] }));
+    const scatterData = dates.map((dateStr, i) => ({
+        x: luxon.DateTime.fromISO(dateStr, { zone: 'local' }).toJSDate(),
+        y: avg_times[i]
+    }));
 
     // Linear regression plugin
     const linearRegressionPlugin = {
@@ -58,24 +61,14 @@ function renderRowingChart(dates, avg_times) {
             const ctx = chart.ctx;
             const { top, bottom, left, right } = chart.chartArea;
 
-            ctx.save();
             ctx.beginPath();
-
-            // Left vertical line (first date)
+            ctx.moveTo(left, bottom);
+            ctx.lineTo(right, bottom);
             ctx.moveTo(left, top);
             ctx.lineTo(left, bottom);
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 2;
             ctx.stroke();
-
-            // Bottom horizontal line
-            ctx.beginPath();
-            ctx.moveTo(left, bottom);
-            ctx.lineTo(right, bottom);
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
             ctx.restore();
         }
     };
@@ -121,7 +114,13 @@ function renderRowingChart(dates, avg_times) {
                     time: { unit: 'day', tooltipFormat: 'dd-MM-yyyy' },
                     ticks: {
                         autoSkip: false,
-                        callback: value => new Date(value).toISOString().split('T')[0]
+                        callback: value => {
+                            const d = new Date(value);
+                            const year = d.getFullYear();
+                            const month = String(d.getMonth() + 1).padStart(2, '0'); // months 0-11
+                            const day = String(d.getDate()).padStart(2, '0');
+                            return `${year}-${month}-${day}`;
+                        }
                     },
                     grid: {
                         color: 'rgba(26,0,128,0.5)',

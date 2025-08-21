@@ -27,6 +27,11 @@
     {% else %}
         <p>No rowing data yet. Enter distances above to see your progress.</p>
     {% endif %}
+    <br>
+    {% if message %}
+        <div class="rowing-message">{{ message|safe }}</div>
+    {% endif %}
+
 
     <div class="rowing-container">
     <p>Please insert distance (Meters) per each leg below:</p>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, abort
+from flask import Flask, render_template, request, url_for, redirect, abort, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -229,8 +229,20 @@ def doc_who():
 def rowing():
     leg_1 = leg_2 = leg_3 = ''
     todays_date = date.today()
+    message = None
+
+    existing_entry = Rowingdata.query.filter_by(user_id=current_user.id, date=todays_date).first()
+    if existing_entry:
+        message = "You have already submitted rowing data for today. <br> Submitting again will replace today's previous entry"
 
     if request.method == "POST":
+        message ="Rowing data submitted successfully!"
+
+        if existing_entry:
+            db.session.delete(existing_entry)
+            db.session.commit()
+            message ="Rowing data replaced successfully!"
+
 
         leg_1 = float(request.form.get("leg_1",0))
         leg_2 = float(request.form.get("leg_2",0))
@@ -245,7 +257,7 @@ def rowing():
     # Prepare data for the graph
     dates = [e.date.strftime("%Y-%m-%d") for e in entries]
     avg_times = [float(e.avg_500m_time_in_secs) for e in entries]  # avg 500m time
-    return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,date=todays_date,avg_times=avg_times,dates=dates)
+    return render_template("rowing.html",leg_1=leg_1,leg_2=leg_2,leg_3=leg_3,date=todays_date,avg_times=avg_times,dates=dates,message=message)
 
 
 @app.route('/register', methods=["GET", "POST"])

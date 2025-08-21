@@ -239,7 +239,10 @@ form {
 .doc-who-form button:hover, .rowing-button:hover {
     background-color: #375d83;
 }
-
+.rowing-message{
+    color: red; 
+    text-align: center;
+}
 .scraper-info-box {
     width: 300px;
     margin: 0 auto 20px auto;
