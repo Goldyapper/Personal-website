@@ -89,7 +89,7 @@ function renderRowingChart(dates, avg_times) {
                 backgroundColor: '#b22222',
                 fill: false,
                 showLine: true, 
-                tension: 0.3
+                tension: 0.3 
             }]
         },
         options: {
