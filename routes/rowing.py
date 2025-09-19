@@ -13,22 +13,22 @@ def rowing():
     todays_date = date.today()
     message = None
 
-    existing_entry = Rowingdata.query.filter_by(user_id=current_user.id, date=todays_date).first()
-    if existing_entry:
-        message = "You have already submitted rowing data for today. <br> Submitting again will replace today's previous entry"
-
     if request.method == "POST":
-        message ="Rowing data submitted successfully!"
+        # Get date from form, fallback to today 
+        selected_date_str = request.form.get("rowing_date")
+        selected_date = date.fromisoformat(selected_date_str) if selected_date_str else todays_date
+
+        existing_entry = Rowingdata.query.filter_by(user_id=current_user.id, date=selected_date).first()
         if existing_entry:
+            message = f"You have already submitted rowing data for {selected_date}. <br> Submitting again will replace it"
             db.session.delete(existing_entry)
             db.session.commit()
-            message ="Rowing data replaced successfully!"
 
         leg_1 = float(request.form.get("leg_1",0))
         leg_2 = float(request.form.get("leg_2",0))
         leg_3 = float(request.form.get("leg_3",0))
 
-        current_entry = Rowingdata(current_user.id, leg_1, leg_2, leg_3)
+        current_entry = Rowingdata(current_user.id, leg_1, leg_2, leg_3,date=selected_date)
         db.session.add(current_entry)
         db.session.commit()
 
