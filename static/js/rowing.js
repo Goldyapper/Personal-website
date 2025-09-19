@@ -87,7 +87,9 @@ function renderRowingChart(dates, avg_times) {
                 data: scatterData,
                 borderColor: '#b22222',
                 backgroundColor: '#b22222',
-                fill: false
+                fill: false,
+                showLine: true, 
+                tension: 0.3
             }]
         },
         options: {
